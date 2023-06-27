@@ -69,8 +69,8 @@ int8_t Joystick::GetDeadzone()
 void Joystick::Update()
 {
     // read the joystick
-    value_int_y = (analogRead(gpio_pin_y)+1) >> 3;
-    value_int_x = (analogRead(gpio_pin_x)+1) >> 3;
+    value_int_y = (analogRead(gpio_pin_y)) >> 3;
+    value_int_x = (analogRead(gpio_pin_x)) >> 3;
 }
 
 
@@ -139,7 +139,7 @@ void Joystick::action()
         }
         
     } else if(_triggered){
-        if(millis()-_Trelease>120){
+        if(millis()-_Trelease>200){
             _triggered=!_triggered;
             if(arAction[0]){Keyboard.release(arAction[0]);}
             if(arAction[1]){Keyboard.release(arAction[1]);}

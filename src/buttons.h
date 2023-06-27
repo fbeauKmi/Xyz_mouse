@@ -6,7 +6,7 @@
 #include <Keyboard.h>
 #include <Mouse.h>
 
-#include "config.h"
+#include "struct.h"
 
 #define DEBOUNCE_DELAY   15
 

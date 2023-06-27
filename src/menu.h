@@ -6,7 +6,7 @@
 #include <EEPROM.h>
 #include "string.h"
 #include "leds.h"
-#include "config.h"  // project structs 
+#include "struct.h"  // project structs 
 
 class Orbion_settings
     {

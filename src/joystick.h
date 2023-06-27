@@ -24,7 +24,7 @@
 
 #include "Arduino.h"
 #include <stdint.h>
-#include "config.h"
+#include "struct.h"
 
 class Joystick {
    public:

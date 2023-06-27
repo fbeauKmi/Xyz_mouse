@@ -26,6 +26,7 @@
 
 #include <Mouse.h>
 #include <Keyboard.h>
+// #include <TinyUSB_Mouse_and_Keyboard.h>
 #include <Wire.h>
 #include <SPI.h>
 
@@ -159,8 +160,12 @@ void loop()
         return;
       }
 
-      if(!joy.isTriggered()){                     // Disable encoder when joystick is triggered
+      if(!joy.isTriggered() && !b4.isPressed()){                     // Disable encoder when joystick is triggered
         Mouse.move(0, 0, enc.getDirection() * men.conf.Encoder);
+      } else if (b4.isPressed() && enc_dir){
+          men.conf.Mode = min(9,max(0, men.conf.Mode + enc_dir * men.conf.Encoder));
+          joy_config();
+          men.refresh();
       }
       b1.action(); b2.action(); b3.action(); b4.action(); 
       joy.action();
