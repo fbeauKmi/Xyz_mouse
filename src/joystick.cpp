@@ -49,8 +49,8 @@ Joystick::~Joystick()
 void Joystick::Init()
 {
     
-    pinMode(gpio_pin_x, INPUT_PULLUP);
-    pinMode(gpio_pin_y, INPUT_PULLUP);
+    pinMode(gpio_pin_x, INPUT);
+    pinMode(gpio_pin_y, INPUT);
 
    // analogReadResolution(10);
     CalibrateZero();
@@ -121,7 +121,7 @@ bool Joystick::isTriggered(){
 }
 
 
-void Joystick::action()
+void Joystick::action(bool buttonPressed)
 {
     if(x() || y()){
         if(!_triggered){
@@ -140,6 +140,7 @@ void Joystick::action()
         
     } else if(_triggered){
         if(millis()-_Trelease>200){
+            _Trelease=millis();
             _triggered=!_triggered;
             if(arAction[0]){Keyboard.release(arAction[0]);}
             if(arAction[1]){Keyboard.release(arAction[1]);}

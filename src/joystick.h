@@ -39,7 +39,7 @@ class Joystick {
     void setFunction(uint8_t _sensibility, char ar[5]){jSens=9-_sensibility*2;
     memcpy(arAction,ar,5*sizeof(char));};
     bool isTriggered();
-    void action();
+    void action(bool buttonPressed);
     
     int8_t x();
     int8_t y();
