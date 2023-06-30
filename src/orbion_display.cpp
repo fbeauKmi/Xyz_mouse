@@ -1,6 +1,22 @@
-#include "menu.h"
+#include "orbion_display.h"
 
-void Orbion_settings::update()
+Orbion_display::Orbion_display(const char* const* strings) : Adafruit_SH1106G(128, 64, &Wire, 4)
+{
+    datas = strings;
+    strcpy_P(list, (char*)pgm_read_word(&(datas[0])));
+    strcpy_P(actions, (char*)pgm_read_word(&(datas[1])));
+    strcpy_P(ee_address, (char*)pgm_read_word(&(datas[2])));
+    strcpy_P(action_strings, (char*)pgm_read_word(&(datas[3])));
+}
+
+void Orbion_display::init(){
+    begin(0x3C, true); // Address 0x3C default     // comment if your oled is SSD1306
+    setRotation(2);   // define screen orientation
+    clearDisplay();
+    display();
+}
+
+void Orbion_display::update()
 {
     static long timer=0;
     if(millis()-timer>150){
@@ -9,17 +25,17 @@ void Orbion_settings::update()
         if(toupdate){
             toupdate= !toupdate;
             
-            display->clearDisplay();
-            display->setTextColor(SH110X_WHITE);
-            display->setTextSize(1);
+            clearDisplay();
+            setTextColor(SH110X_WHITE);
+            setTextSize(1);
 
             if(show){
 
                 startpos = ((list[current_menu+1] >> 4) & 0xF) + list[0];
                 nbitem= list[current_menu+1] & 0x0F;    
 
-                display->drawLine(15,19,display->width()-15,19,SH110X_WHITE),
-                display->setCursor( 0 , 9);
+                drawLine(15,19,width()-15,19,SH110X_WHITE),
+                setCursor( 0 , 9);
                 strcpy(buf,"- ");
                 strcat_P(buf,(char*)pgm_read_word(&(datas[current_menu+list[0]-1])));
                 strcat(buf," -");
@@ -32,28 +48,28 @@ void Orbion_settings::update()
                     action();
                 }
             } else {
-                display->drawRoundRect(10,10,108,28,6,SH110X_WHITE);
-                display->setCursor(12,20);
-                pgmString(23+conf.Mode);
+                drawRoundRect(10,10,108,28,6,SH110X_WHITE);
+                setCursor(12,20);
+                pgmString(25+conf.Mode);
                 print_center(buf);
             }
-            display->display();
+            display();
         }
     }
 }
 
 /// @brief Allow display to be refresh()
-void Orbion_settings::refresh(){
+void Orbion_display::refresh(){
     toupdate = true;
     return;
 }
 /// @brief Exit Settings Mode
-void Orbion_settings::exitSettings(){
+void Orbion_display::exitSettings(){
     show=false;
 }
 
 /// @brief Enter Settings Mode
-void Orbion_settings::startSettings()
+void Orbion_display::startSettings()
 {
     show = true;
     toupdate= true;
@@ -62,7 +78,7 @@ void Orbion_settings::startSettings()
     actionmode=0;
 }
 
-// void Orbion_settings::startSettings(uint8_t menu_id)
+// void Orbion_display::startSettings(uint8_t menu_id)
 // {
 //     show = true;
 //     toupdate= true;
@@ -71,7 +87,7 @@ void Orbion_settings::startSettings()
 //     actionmode=0;
 //     enter();
 // }
-void Orbion_settings::select()
+void Orbion_display::select()
 {
         // Choose first item to display 
         if(current_item > 2 + startm){
@@ -81,7 +97,7 @@ void Orbion_settings::select()
         }
 
         for(uint8_t a = 0 ; a < min(3,nbitem) ; a++){
-            display->setCursor( 31 , 24 + a *12);
+            setCursor( 31 , 24 + a *12);
             //strcpy_P(buf,(char*)pgm_read_word(&(datas[startpos+a+startm])));
             pgmString(startpos+a+startm);
            uint8_t TEXTCOLOR =0;
@@ -91,36 +107,34 @@ void Orbion_settings::select()
             }else{
                 TEXTCOLOR = SH110X_WHITE;
             }
-            display->setTextColor(TEXTCOLOR);
-            print_center(buf,0,display->width());
+            setTextColor(TEXTCOLOR);
+            print_center(buf,0,width());
         }
 
 }
 
-void Orbion_settings::action()
+void Orbion_display::action()
 {
     if(actionmode && show ){
 
-        display->setCursor(0 , 23);
-        //strcpy_P(buf,(char*)pgm_read_word(&(datas[startpos+current_item])));
+        setCursor(0 , 23);
+        
         pgmString(startpos+current_item);
         print_center(buf);
-        display->setCursor( 60 , 40);
+        setCursor( 60 , 40);
 
         switch(actionmode){
             case 1:
             case 3:
             case 6:
             case 7:
-                //strcpy_P(buf,(char*)pgm_read_word(&(datas[action_strings[0]+str_pos+actionvalue])));
                 pgmString(action_strings[0]+str_pos+actionvalue);
                 fillrect_center(buf);
-                display->setTextColor(SH110X_BLACK);
+                setTextColor(SH110X_BLACK);
                 print_center(buf);
-                //display->print(actionvalue);
+                //print(actionvalue);
             break;
             case 4:
-                //strcpy_P(buf,(char*)pgm_read_word(&(datas[action_strings[0] + str_pos + (actionvalue < 36 ? 0 : actionvalue-35)]) ));
                 pgmString(action_strings[0] + str_pos + (actionvalue < 36 ? 0 : actionvalue-35));
                 if(actionvalue < 36){
                     print_center(buf[actionvalue]);
@@ -131,31 +145,31 @@ void Orbion_settings::action()
             case 5:
                 {
                 uint32_t c = _leds->Color(actionvalue,jogxvalue,jogyvalue);
-                display->setCursor( 20 , 35);
+                setCursor( 20 , 35);
 
-                display->print("HSV ");
+                print("HSV ");
                 
-                display->print(actionvalue);
-                display->write(44);
-                display->print(jogxvalue);
-                display->write(44);
-                display->print(jogyvalue);
-                display->setCursor( 20 , 47);
-                display->print("RGB #");
-                display->print(_leds->getColor(),HEX);
+                print(actionvalue);
+                write(44);
+                print(jogxvalue);
+                write(44);
+                print(jogyvalue);
+                setCursor( 20 , 47);
+                print("RGB #");
+                print(_leds->getColor(),HEX);
 
                 _leds->display(0,1,c,0);
                 }
             break;
             default:
-                display->setTextColor(SH110X_WHITE);
-                display->print(actionvalue +1);
+                setTextColor(SH110X_WHITE);
+                print(actionvalue +1);
             break;        }   
     }
 }
 
 /// @brief Way back in setting menu
-void Orbion_settings::back()
+void Orbion_display::back()
 {
     toupdate=true;
     if(current_menu>1){
@@ -172,7 +186,7 @@ void Orbion_settings::back()
     
 }
 
-void Orbion_settings::scroll(int8_t inc)
+void Orbion_display::scroll(int8_t inc)
 {
    toupdate=true;
    if(!actionmode){
@@ -186,19 +200,19 @@ void Orbion_settings::scroll(int8_t inc)
    }
 }
 
-void Orbion_settings::jogx(int8_t inc)
+void Orbion_display::jogx(int8_t inc)
 {
     static uint64_t timer=millis();
     _jog(inc, &jogxvalue, &timer);
 }
-void Orbion_settings::jogy(int8_t inc)
+void Orbion_display::jogy(int8_t inc)
 {
     static uint64_t timer=millis();  
     _jog(inc, &jogyvalue, &timer);
        
 }
 
-void Orbion_settings::_jog(int8_t inc, uint8_t * axevalue, uint64_t * timer)
+void Orbion_display::_jog(int8_t inc, uint8_t * axevalue, uint64_t * timer)
 {
     if(actionmode == 5){
         if(millis()- *timer > 25){
@@ -210,7 +224,7 @@ void Orbion_settings::_jog(int8_t inc, uint8_t * axevalue, uint64_t * timer)
     }
 }
 
-void Orbion_settings::enter()
+void Orbion_display::enter()
 {
   
   if(current_menu==1){
@@ -264,72 +278,75 @@ void Orbion_settings::enter()
 
 /// @brief print a single char centered
 /// @param t 
-void  Orbion_settings::print_center(const char  &t)
+void  Orbion_display::print_center(const char  &t)
 {
-    uint8_t x = width/2 - 3;
-    display->setCursor(x,display->getCursorY());
-    display->print(t);
+    uint8_t x = width()/2 - 3;
+    setCursor(x,getCursorY());
+    print(t);
 }
 
 /// @brief Print a String centered
 /// @param t 
-void Orbion_settings::print_center(const String &t)
+void Orbion_display::print_center(const String &t)
 {
-    uint8_t x = width/2 - 3 * t.length();
-    display->setCursor(x,display->getCursorY());
-    display->print(t);
+    uint8_t x = width()/2 - 3 * t.length();
+    setCursor(x,getCursorY());
+    print(t);
 }
 
 /// @brief print a string centerd from x to x+w
 /// @param t 
 /// @param x 
 /// @param w 
-void Orbion_settings::print_center(const String &t,int8_t x,uint8_t w)
+void Orbion_display::print_center(const String &t,int8_t x,uint8_t w)
 {
     uint8_t xs = x + w/2 - 3 * t.length();
-    display->setCursor(xs,display->getCursorY());
-    display->print(t);
+    setCursor(xs,getCursorY());
+    print(t);
 }
 
-void Orbion_settings::fillrect_center(const String &t)
+void Orbion_display::fillrect_center(const String &t)
 {
-    uint8_t x1 = width/2 - 3 * t.length() - 5;
-    display->fillRect(x1,display->getCursorY()-2,t.length()*6+10,11,SH110X_WHITE);
+    uint8_t x1 = width()/2 - 3 * t.length() - 5;
+    fillRect(x1,getCursorY()-2,t.length()*6+10,11,SH110X_WHITE);
 }
 
 /// @brief  Optimize string read sore it to buffer
 /// @param id 
-void Orbion_settings::pgmString(uint8_t id){
-   
+void Orbion_display::pgmString(uint8_t id){
     strcpy_P(buf,(char *)pgm_read_word(&datas[id]));
+}
 
+void Orbion_display::pgmUintArray(uint8_t id, uint8_t nbval){
+   char cBuf[nbval];
+   for(int a = 0; a<nbval; a++){
+        strcpy_P(cBuf,(char *)pgm_read_word(&datas[id]));
+   }
 }
 
 
 //// EEPROM Read/write functions   ////
-
-
-uint8_t Orbion_settings::EE_addr(uint8_t id)
+uint8_t Orbion_display::EE_addr(uint8_t id)
 {
     int ee_adr = (int)ee_address[id-1] - 1 ;
     return ee_adr;
 }
 
-void Orbion_settings::EE_write(uint8_t id, byte value)
+void Orbion_display::EE_write(uint8_t id, byte value)
 {
    EE_write(id,value,0U);
 } 
-void Orbion_settings::EE_write(uint8_t id, byte value, uint8_t offset)
+void Orbion_display::EE_write(uint8_t id, byte value, uint8_t offset)
 {
     int ee_adr = EE_addr(id) ;
     EEPROM.update(ee_adr + offset,value);
 }
 
-uint8_t Orbion_settings::EE_read(uint8_t id)
+uint8_t Orbion_display::EE_read(uint8_t id)
 {   
     return EE_read(id,0U);
 }
-uint8_t Orbion_settings::EE_read(uint8_t id, uint8_t offset)
+uint8_t Orbion_display::EE_read(uint8_t id, uint8_t offset)
 {
     int ee_adr = EE_addr(id) ;
     return EEPROM.read(ee_adr + offset);
@@ -337,28 +354,31 @@ uint8_t Orbion_settings::EE_read(uint8_t id, uint8_t offset)
 
 //// Load config
 
-void Orbion_settings::loadConfig()
+void Orbion_display::loadConfig()
 {
-    if(EE_read(13) == 1){
+    if(EE_read(15) == 1){
         conf.Mode = EE_read(1);
-        conf.sensibility = EE_read(2);
-        conf.Encoder = EE_read(3) ? -1 : 1;
+        conf.AltMode0 = conf.Mode;
+        conf.AltMode1 = EE_read(2);
+        conf.AltMode2 = EE_read(3);
+        conf.sensibility = EE_read(4);
+        conf.Encoder = EE_read(5) ? -1 : 1;
 
-        conf.color1 = _leds->Color(EE_read(8),EE_read(8,1),EE_read(8,2));
-        conf.color2= _leds->Color(EE_read(9),EE_read(9,1),EE_read(9,2));;
-        conf.led_mode= EE_read(10);
-        conf.led_color_mode= EE_read(11);
-        conf.timeout = EE_read(12) * 1000;
+        conf.color1 = _leds->Color(EE_read(10),EE_read(10,1),EE_read(10,2));
+        conf.color2= _leds->Color(EE_read(11),EE_read(11,1),EE_read(11,2));;
+        conf.led_mode= EE_read(12);
+        conf.led_color_mode= EE_read(13);
+        conf.timeout = EE_read(14) * 1000;
 
-        buttonKey(&conf.b0, EE_read(4));
-        buttonKey(&conf.b1, EE_read(5));
-        buttonKey(&conf.b2, EE_read(6));
-        buttonKey(&conf.b3, EE_read(7));
+        buttonKey(&conf.b0, EE_read(6));
+        buttonKey(&conf.b1, EE_read(7));
+        buttonKey(&conf.b2, EE_read(8));
+        buttonKey(&conf.b3, EE_read(9));
      }else{
 
 // first run Write default settings on EEPROM
-        EE_write(13,1);
-        byte var[11];
+        EE_write(15,1);
+        byte var[13];
         memcpy_P(var,pgm_read_word(&datas[5]),11);
         for(uint8_t i=0; i<11; i++)
         {
@@ -369,15 +389,13 @@ void Orbion_settings::loadConfig()
     
 }
 
-void Orbion_settings::buttonKey(button_action * b, uint8_t id)
+void Orbion_display::buttonKey(button_action * b, uint8_t id)
 {
     b->M = id < 42 ? 4 : 0;
     if(id < 36){
-        //strcpy_P(buf,(char*)pgm_read_word(&(datas[32])));
-        pgmString(33);
+        pgmString(35);
         b->K = buf[id];
     }else{
-        //strcpy_P(buf,(char*)pgm_read_word(&(datas[4])));
         pgmString(4);
         b->K = buf[id-36];
     }

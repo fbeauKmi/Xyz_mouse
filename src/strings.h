@@ -14,8 +14,10 @@ const char menu20[] PROGMEM = "Knob";
 const char menu30[] PROGMEM = "Buttons";
 const char menu40[] PROGMEM = "Leds";
 
-const char menu11[] PROGMEM = "Mode";
-const char menu12[] PROGMEM = "Sensibility";
+const char menu110[] PROGMEM = "Default Mode";
+const char menu111[] PROGMEM = "Alt Mode 1";
+const char menu112[] PROGMEM = "Alt Mode 2";
+const char menu12[] PROGMEM = "Sentivity";
 
 const char menu21[] PROGMEM = "Direction";
 const char menu22[] PROGMEM = "Button";
@@ -30,12 +32,22 @@ const char menu41[] PROGMEM = "Motion Mode";
 const char menu42[] PROGMEM = "Color Mode";
 const char menu45[] PROGMEM = "Timeout (sec)";
 
-
-const byte arMenu[7] PROGMEM = {0x06, 0x01U, 0x14U, 0x52U, 0x72U, 0x93U, 0xC5U} ;
-const byte actions[12] PROGMEM = {1,2,3,4,4,4,4,5,5,6,7,8};
-const byte EE_address[13] PROGMEM = {11,1,39,36,21,24,28,46,41,54,57,5,2};
-const byte arAction[9] PROGMEM = {0x17, 0x09, 0x04, 0x01, 0x2D, 0xFFU, 0x2, 0x3, 0x60 } ;
+// arMenu 
+// first byte : pos of menu00 in PROGMEM array
+// other : offpos of menu in array + nb of items
+const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x14U, 0x54U, 0x92U, 0xB3U, 0xE5U} ;
+// actions
+// Menu action function for each menu items (see Orbion_display::action)
+const byte actions[] PROGMEM = {1,1,1,2,3,4,4,4,4,5,5,6,7,8};
+// EE_address
+// EEPROM address for each settings (last one is a control byte if )
+const byte EE_address[] PROGMEM = {11,12,13,1,39,36,21,24,28,46,41,54,57,5,2};
+// first byte : pos of fist item  in PROGMEM array
+// other : length of array
+const byte arAction[] PROGMEM = {0x19, 0x09, 0x04, 0x01, 0x2D, 0xFFU, 0x2, 0x3, 0x60 } ;
+// Byte values for chr 36 to 45
 const byte Keys[] PROGMEM = {0x20,0x80,0x81,0x82,0xB3,0xB1,0x0,0x83,0x80};
+
 
 const char jm0[] PROGMEM = "Mouse";
 const char jm1[] PROGMEM = "Fusion360";
@@ -72,7 +84,7 @@ const char cmode0[] PROGMEM = "Color 1";
 const char cmode1[] PROGMEM = "Mixed";
 const char cmode2[] PROGMEM = "Rainbow";
 
-const byte defaultVal[] PROGMEM = {0x0,0x2,0x0,0x2D,0x2D,0x2D,0x0,0x7E,0x2,0x2,0x1E};
+const byte defaultVal[] PROGMEM = {0x0,0x1,0x2,0x2,0x0,0x2D,0x2D,0x2D,0x0,0x7E,0x2,0x2,0x1E};
 
 const char *const menu_str[] PROGMEM = {(const char *) arMenu,
                                         (const char *) actions,
@@ -82,7 +94,7 @@ const char *const menu_str[] PROGMEM = {(const char *) arMenu,
                                         (const char *) defaultVal,
                                         menu00,
                                         menu10, menu20,menu30,menu40,
-                                        menu11,menu12,
+                                        menu110,menu111,menu112,menu12,
                                         menu21,menu22,
                                         menu31,menu32,menu33,
                                         menu43,menu44,menu41,menu42,menu45,
@@ -93,15 +105,16 @@ const char *const menu_str[] PROGMEM = {(const char *) arMenu,
                                         cmode3,cmode0,cmode1,cmode2
                                         };
 
-const byte jog_actions[] PROGMEM = {0x0,  0x0,  0x0, 0x0, 0x0,
-                                    0x81, 0x0,  0x3, 0x4, 0x0,
-                                    0x0,  0x0,  0x0, 0x4, 0x0,
-                                    0x81, 0x82, 0x0, 0x4, 0x0,
-                                    0x20, 0x0,  0x0, 0x1, 0x0,
-                                    0x0,  0x0,  0x0, 0x4, 0x2,
-                                    0x0,  0x0,  0x0, 0x2, 0x0,
-                                    0x0,  0x0,  0x0, 0x1, 0x0,
-                                    0x81, 0x0,  0x0, 0x1, 0x0,
-                                    0x0,  0x0,  0x0, 0x2, 0x0
+// pre sequence KEY/MOUSE for joystick (5 bytes for rot, 5 bytes for pan) 
+const byte jog_actions[] PROGMEM = {0x0,  0x0,  0x0, 0x0, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x81, 0x0,  0x3, 0x4, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x0,  0x0,  0x0, 0x4, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x81, 0x82, 0x0, 0x4, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x20, 0x0,  0x0, 0x1, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x0,  0x0,  0x0, 0x4, 0x2,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x0,  0x0,  0x0, 0x2, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x0,  0x0,  0x0, 0x1, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x81, 0x0,  0x0, 0x1, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0,
+                                    0x0,  0x0,  0x0, 0x2, 0x0,      0x0,  0x0,  0x0, 0x0, 0x0
                                     };
 #endif

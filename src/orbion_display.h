@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef ORBIONDISP_H
+#define ORBIONDISP_H
 
 #include <Arduino.h>
 #include <Adafruit_SH110X.h>
@@ -8,16 +8,18 @@
 #include "leds.h"
 #include "struct.h"  // project structs 
 
-class Orbion_settings
+#define SSD1306 LOW
+#define WHITE SH110X_WHITE
+
+class Orbion_display : public Adafruit_SH1106G
     {
         protected:
             int8_t current_menu=1;
             int8_t current_item=0;
             bool show=false;
             bool toupdate=true;
-            Adafruit_SH1106G * display;
+    
             Orbion_Neopixel * _leds;
-            uint8_t width;
             const char* const* datas;
             char list[20];
             char actions[20];
@@ -35,18 +37,13 @@ class Orbion_settings
             uint8_t actionvalue=0;         
 
         public:
-            Orbion_settings(const char* const* strings):datas(strings){
-                strcpy_P(list, (char*)pgm_read_word(&(datas[0])));
-                strcpy_P(actions, (char*)pgm_read_word(&(datas[1])));
-                strcpy_P(ee_address, (char*)pgm_read_word(&(datas[2])));
-                strcpy_P(action_strings, (char*)pgm_read_word(&(datas[3])));
-
-            };
-            void setdisplay(Adafruit_SH1106G * disp){ display=disp;width=disp->width();toupdate=true;};
+            Orbion_display(const char* const* strings);
+                 
             void setleds(Orbion_Neopixel * leds){ 
                 _leds = leds;
                 loadConfig();
             };
+            void init();
             void update();
             void refresh();
 
@@ -68,6 +65,7 @@ class Orbion_settings
             void buttonKey(button_action * b, uint8_t id);
 
             void pgmString(uint8_t id);
+            void pgmUintArray(uint8_t id, uint8_t nbval);
             uint8_t EE_addr(uint8_t id);
             uint8_t EE_read(uint8_t id);
             uint8_t EE_read(uint8_t id, uint8_t offset);

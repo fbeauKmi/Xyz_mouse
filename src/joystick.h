@@ -36,8 +36,10 @@ class Joystick {
     void SetDeadzone(int8_t deadzone);
     int8_t GetDeadzone();
     
-    void setFunction(uint8_t _sensibility, char ar[5]){jSens=9-_sensibility*2;
-    memcpy(arAction,ar,5*sizeof(char));};
+    void setFunction(uint8_t _sensibility, char ar[10]){jSens=9-_sensibility*2;
+    memcpy(arAction_rot,ar,5*sizeof(char));
+    //memcpy(&arAction_pan,ar[5],sizeof(jog_action));
+    };
     bool isTriggered();
     void action(bool buttonPressed);
     
@@ -56,7 +58,8 @@ class Joystick {
     int8_t deadzone;
     int8_t axev(int16_t  value);
     uint8_t jSens;
-    char arAction[5];
+    char arAction_rot[5];
+    //jog_action arAction_pan;
     bool _triggered;
     uint32_t _T;
     uint32_t _Trelease;

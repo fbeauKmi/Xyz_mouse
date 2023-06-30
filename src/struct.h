@@ -23,6 +23,9 @@ typedef struct
   uint32_t color2;
   uint16_t timeout;
   uint8_t Mode;
+  uint8_t AltMode0;
+  uint8_t AltMode1;
+  uint8_t AltMode2;
   uint8_t sensibility;
   int8_t Encoder;
   button_action b0;

@@ -34,7 +34,7 @@ Joystick::Joystick(
     value_int_y = 0;
     deadzone = 0;
     for( uint8_t i =0 ; i < 5; i++){
-        arAction[i]= 0;
+        arAction_rot[i]= 0;
     }
     _smooth = 5;
     _T=millis();
@@ -126,11 +126,11 @@ void Joystick::action(bool buttonPressed)
     if(x() || y()){
         if(!_triggered){
             _triggered=!_triggered;
-            if(arAction[0]){Keyboard.press(arAction[0]);}
-            if(arAction[1]){Keyboard.press(arAction[1]);}
-            if(arAction[2]){delay(arAction[2]);}
-            if(arAction[3]){Mouse.press(arAction[3]);}
-            if(arAction[4]){Mouse.press(arAction[4]);}
+            if(arAction_rot[0]){Keyboard.press(arAction_rot[0]);}
+            if(arAction_rot[1]){Keyboard.press(arAction_rot[1]);}
+            if(arAction_rot[2]){delay(arAction_rot[2]);}
+            if(arAction_rot[3]){Mouse.press(arAction_rot[3]);}
+            if(arAction_rot[4]){Mouse.press(arAction_rot[4]);}
         }
         if(millis()-_T>(_smooth*jSens)){
             _T=millis();
@@ -142,10 +142,10 @@ void Joystick::action(bool buttonPressed)
         if(millis()-_Trelease>200){
             _Trelease=millis();
             _triggered=!_triggered;
-            if(arAction[0]){Keyboard.release(arAction[0]);}
-            if(arAction[1]){Keyboard.release(arAction[1]);}
-            if(arAction[3]){Mouse.release(arAction[3]);}
-            if(arAction[4]){Mouse.release(arAction[4]);}
+            if(arAction_rot[0]){Keyboard.release(arAction_rot[0]);}
+            if(arAction_rot[1]){Keyboard.release(arAction_rot[1]);}
+            if(arAction_rot[3]){Mouse.release(arAction_rot[3]);}
+            if(arAction_rot[4]){Mouse.release(arAction_rot[4]);}
         }
     }
 }
