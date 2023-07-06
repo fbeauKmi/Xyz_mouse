@@ -5,8 +5,9 @@ Orbion_display::Orbion_display(const char* const* strings) : Adafruit_SH1106G(12
     datas = strings;
     strcpy_P(list, (char*)pgm_read_word(&(datas[0])));
     strcpy_P(actions, (char*)pgm_read_word(&(datas[1])));
-    strcpy_P(ee_address, (char*)pgm_read_word(&(datas[2])));
-    strcpy_P(action_strings, (char*)pgm_read_word(&(datas[3])));
+    strcpy_P(itemPos, (char*)pgm_read_word(&(datas[2])));
+    strcpy_P(ee_address, (char*)pgm_read_word(&(datas[3])));
+    strcpy_P(action_strings, (char*)pgm_read_word(&(datas[4])));
 }
 
 void Orbion_display::init(){
@@ -247,22 +248,8 @@ void Orbion_display::enter()
     actionmode = actions[id-1] & 0x0F;
     actionvalue =  EE_read(id) ;
     actionvalue = min(actionvalue,(uint8_t) action_strings[actionmode]);
+    str_pos = itemPos[actionmode-1] - 1 ;
     switch(actionmode){
-        case 1:
-            str_pos=0;
-        break;
-        case 3:
-            str_pos= 21;
-        break;
-        case 4:
-            str_pos = 10;
-        break;
-        case 6:
-            str_pos = 23;
-        break;
-        case 7:
-            str_pos = 26;    
-        break;
         case 5:
             jogxvalue = EE_read(id,1);
             jogyvalue = EE_read(id,2);
@@ -371,15 +358,15 @@ void Orbion_display::loadConfig()
         conf.timeout = EE_read(14) * 1000;
 
         buttonKey(&conf.b0, EE_read(6));
-        buttonKey(&conf.b1, EE_read(7));
-        buttonKey(&conf.b2, EE_read(8));
-        buttonKey(&conf.b3, EE_read(9));
+        buttonKey(&conf.b1, EE_read(6));
+        buttonKey(&conf.b2, EE_read(7));
+        buttonKey(&conf.b3, EE_read(8));
      }else{
 
 // first run Write default settings on EEPROM
         EE_write(15,1);
         byte var[13];
-        memcpy_P(var,pgm_read_word(&datas[5]),11);
+        memcpy_P(var,pgm_read_word(&datas[6]),11);
         for(uint8_t i=0; i<11; i++)
         {
         EE_write(i+1,var[i]);
@@ -393,10 +380,10 @@ void Orbion_display::buttonKey(button_action * b, uint8_t id)
 {
     b->M = id < 42 ? 4 : 0;
     if(id < 36){
-        pgmString(35);
+        pgmString( action_strings[0] + itemPos[3]  -1 );
         b->K = buf[id];
     }else{
-        pgmString(4);
+        pgmString(5);
         b->K = buf[id-36];
     }
     return;

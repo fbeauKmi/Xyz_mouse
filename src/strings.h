@@ -20,7 +20,6 @@ const char menu112[] PROGMEM = "Alt Mode 2";
 const char menu12[] PROGMEM = "Sentivity";
 
 const char menu21[] PROGMEM = "Direction";
-const char menu22[] PROGMEM = "Button";
 
 const char menu31[] PROGMEM = "Button 1";
 const char menu32[] PROGMEM = "Button 2";
@@ -35,14 +34,16 @@ const char menu45[] PROGMEM = "Timeout (sec)";
 // arMenu 
 // first byte : pos of menu00 in PROGMEM array
 // other : offpos of menu in array + nb of items
-const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x14U, 0x54U, 0x92U, 0xB3U, 0xE5U} ;
+const byte arMenu[] PROGMEM = {0x07, 0x01U, 0x14U, 0x54U, 0x91U, 0xA3U, 0xD5U} ;
 // actions
 // Menu action function for each menu items (see Orbion_display::action)
-const byte actions[] PROGMEM = {1,1,1,2,3,4,4,4,4,5,5,6,7,8};
+const byte actions[] PROGMEM = {1,1,1,2,3,4,4,4,5,5,6,7,8};
+// Display item pos in array = f(actionMode) from 1st item
+const byte itemPos[] PROGMEM = {1,255,22,11,255,24,27,255};
 // EE_address
 // EEPROM address for each settings (last one is a control byte if )
 const byte EE_address[] PROGMEM = {11,12,13,1,39,36,21,24,28,46,41,54,57,5,2};
-// first byte : pos of fist item  in PROGMEM array
+// first byte : pos of first item  in PROGMEM array
 // other : length of array
 const byte arAction[] PROGMEM = {0x19, 0x09, 0x04, 0x01, 0x2D, 0xFFU, 0x2, 0x3, 0x60 } ;
 // Byte values for chr 36 to 45
@@ -56,7 +57,7 @@ const char jm3[] PROGMEM = "Blender";
 const char jm4[] PROGMEM = "Adobe";
 const char jm5[] PROGMEM = "Freecad (CAD)";
 const char jm6[] PROGMEM = "Rhino";
-const char jm7[] PROGMEM = "ZBrush";
+const char jm7[] PROGMEM = "Susie ;)";
 const char jm8[] PROGMEM = "ANSA";
 const char jm9[] PROGMEM = "OnShape";
 
@@ -88,6 +89,7 @@ const byte defaultVal[] PROGMEM = {0x0,0x1,0x2,0x2,0x0,0x2D,0x2D,0x2D,0x0,0x7E,0
 
 const char *const menu_str[] PROGMEM = {(const char *) arMenu,
                                         (const char *) actions,
+                                        (const char *) itemPos,
                                         (const char *) EE_address,
                                         (const char *) arAction,
                                         (const char *) Keys,
@@ -95,7 +97,7 @@ const char *const menu_str[] PROGMEM = {(const char *) arMenu,
                                         menu00,
                                         menu10, menu20,menu30,menu40,
                                         menu110,menu111,menu112,menu12,
-                                        menu21,menu22,
+                                        menu21,
                                         menu31,menu32,menu33,
                                         menu43,menu44,menu41,menu42,menu45,
                                         jm0, jm1, jm2, jm3, jm4, jm5, jm6, jm7, jm8, jm9,

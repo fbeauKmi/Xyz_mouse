@@ -167,7 +167,7 @@ void loop()
         joy_config();
         display.refresh();
       }
-      b1.action(); b2.action(); b3.action(); b4.action(); 
+      b1.action(); b2.action(); b3.action(); 
       joy.action(b4.isPressed());
     }
 

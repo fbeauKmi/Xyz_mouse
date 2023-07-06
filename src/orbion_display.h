@@ -23,6 +23,7 @@ class Orbion_display : public Adafruit_SH1106G
             const char* const* datas;
             char list[20];
             char actions[20];
+            char itemPos[20];
             char ee_address[20];
             char action_strings[20];
             
