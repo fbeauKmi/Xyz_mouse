@@ -56,7 +56,7 @@ Orbion_display display;
 /// @brief Set Neopixel config from EEprom datas 
 void led_config()
 {
-  leds.config(display.conf.led_mode,display.conf.led_color_mode,display.conf.color1,display.conf.color2);
+  leds.setConfig(display.conf.led_mode,display.conf.led_color_mode,display.conf.color1,display.conf.color2);
 }
 
 /// @brief Turn Off display and led when no action is done Timeout is done by config
@@ -110,7 +110,7 @@ void setup() {
 
   leds.begin();
   led_config();
-  
+
   // init HID
   static HIDSubDescriptor node(_hidReportDescriptor, sizeof(_hidReportDescriptor));
   HID().AppendDescriptor(&node);
