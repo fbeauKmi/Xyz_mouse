@@ -8,7 +8,7 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "NotTheOrbion v0.1"
+#define FIRMWARE_NAME "Xyz Mouse v0.1"
 
 #define PANTILT_AM   3
 #define KNOBDIR_AM   1
