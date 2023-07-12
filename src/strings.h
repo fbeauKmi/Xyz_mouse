@@ -10,8 +10,8 @@
 // Define constants
 #define FIRMWARE_NAME "Xyz Mouse v0.1"
 
-#define PANTILT_AM   3
-#define KNOBDIR_AM   1
+#define PANTILT_AM   1
+#define KNOBDIR_AM   3
 #define COLOR_AM     5
 #define MOTIONMOD_AM 6
 #define COLORMODE_AM 7
