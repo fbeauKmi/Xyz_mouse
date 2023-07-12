@@ -13,6 +13,7 @@ Orbion_Neopixel::Orbion_Neopixel(uint16_t n, uint16_t pin) : Adafruit_NeoPixel(n
 
 void Orbion_Neopixel::setConfig(uint8_t mode, uint8_t color_mode, uint32_t color1, uint32_t color2){
       _color1 = colorHSV(r(color1), g(color1), b(color1) );
+      _value = b(color1);
       _color2 = colorHSV(r(color2), g(color2), b(color2) );
       _color_mode = color_mode;
       _mode = mode;
@@ -45,7 +46,7 @@ void Orbion_Neopixel::display(void){
       if(_color_mode == COLOR_MIXED){
           color = mixColorCycle(_color1,_color2, _lastframe << 3 );
       } else if(_color_mode == COLOR_RAINBOW) {
-          color = colorHSV((_lastframe >> 5) ,0xFFU, 0xFFU);
+          color = colorHSV((_lastframe >> 5) ,0xFFU, _value);
       }
       
       if(_color_mode){

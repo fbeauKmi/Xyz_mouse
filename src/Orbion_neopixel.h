@@ -23,6 +23,7 @@ class Orbion_Neopixel : public Adafruit_NeoPixel {
         uint32_t _color1 = 0;
         uint32_t _color2 = 0;
         byte _brightness = 0;
+        byte _value      = 0;
         uint8_t n = 0;
 
         uint8_t r(uint32_t color);
