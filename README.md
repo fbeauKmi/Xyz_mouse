@@ -1,5 +1,5 @@
 ﻿
-![LOGO Xyz Mouse](logo.png)
+![LOGO Xyz Mouse](./logo.png)
 # Xyz Mouse firmware for Orbion
 
 First attempt to build an alternate firmware for Orbion. 
