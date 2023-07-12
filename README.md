@@ -1,9 +1,14 @@
-﻿# M-Xyz firmware for Orbion
+﻿
+![LOGO Xyz Mouse](logo.png)
+# Xyz Mouse firmware for Orbion
 
-First attempt to build an alternate firmware for Orbion
+First attempt to build an alternate firmware for Orbion. 
 It is now compatible with 3Dconnexion drivers and mimic Spacemouse compact.
 
-## first done : 
+It gives to your Orbion 6Dof (see usage). The current firmware is designed for
+Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
+
+## First done : 
 
 - Orbion_Neopixel library
 - Rotary encoder library based on https://github.com/mathertel/RotaryEncoder
@@ -11,15 +16,16 @@ It is now compatible with 3Dconnexion drivers and mimic Spacemouse compact.
 - button library
 - display Library (still to simplify)
 
-## todo/improve
+## Todo/improve
 
 - Orbion_settings : a mixed library wich managed display and settings
 - Strings management to improve
 
 ## Installation :
 
-Download the current repo, 
-Compile firmware with platformio in Vscode
+Clone the current repo, 
+Compile and upload the firmware with platformio in Vscode.
+Install 3DConnexion drivers  
 
 ## Usage :
 At first run the firmware store a default config in EEPROM
@@ -27,18 +33,16 @@ At first run the firmware store a default config in EEPROM
 
 | Mode   | actuators  |  function   | Notes |
 |--------|----------|-------------| ---|
-| Normal  | B1/B2 | Button Left / Button right ~~Selected Fn~~ |
-|   | ~~rot_Knob~~ | ~~Zoom~~ |
-|   | Joystick or rot knob | Tilt / Orbit | ~~When Joystick is triggered rot_knob is disabled~~| 
-|   | B3 ~~B1 + B_Knob~~ | Enter settings |
-|   |~~B_Knob + rot_Knob~~| ~~Quick mode change~~ |
+| Normal  | B1/B2 | Button Left / Button right |
+|   | Joystick or rot knob | Tilt / Orbit || 
+|   | B3  | Enter settings |
 |   | B_Knob + Joystick or rot Knob | Pan / Zoom | 
 | Settings | B_Knob | Select |
 |   | B3 | Return/Cancel |
 |   | rot_Knob | scroll |
-| Color settings  | rot_Knob | change Hue |
+| Color settings  | rot_Knob | change Hue | 16M color settings
 |   | Joystick X | change saturation |
-|   | Joystick Y | change brigthness | 
+|   | Joystick Y | change brigthness | Britthness of Color1 is used in Rainbow mode
 
 ##  Settings Menu
 
@@ -53,6 +57,10 @@ Press B3 button to enter menu
     - Screensave timeout
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
+
+## Any questions
+
+@fboc#1751 on Discord
 
 ## Inspiration sources : 
 - https://github.com/jfedor2/spaceball-2003
