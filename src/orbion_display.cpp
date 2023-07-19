@@ -1,6 +1,7 @@
 #include "orbion_display.h"
+#include <EEPROM.h>
 
-Orbion_display::Orbion_display() : Adafruit_SH1106G(128, 64, &Wire, 4)
+Orbion_display::Orbion_display()
 {
     strcpy_P(list, (char*)pgm_read_word(&(datas[0])));
     strcpy_P(actions, (char*)pgm_read_word(&(datas[1])));
@@ -10,7 +11,7 @@ Orbion_display::Orbion_display() : Adafruit_SH1106G(128, 64, &Wire, 4)
 }
 
 void Orbion_display::init(){
-    begin(0x3C, true); // Address 0x3C default     // comment if your oled is SSD1306
+    display_init();
     setRotation(2);   // define screen orientation
     clear();          // Clear screen at startup
 }

@@ -25,10 +25,15 @@ Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
 
 It can be tricky to get the firmware to be recognized by the system. Follow this steps to get it work.
 - Clone the current repo,
-- Compile and upload the firmware with platformio in Vscode.
+- Open the folder with platformio in Vscode
+- Check ``platformio.ini`` and ``src\settings.h``
+- Compile and upload the firmware
 - Unplug/plug the Orbion
 - Install the [3DConnexion drivers](https://3dconnexion.com/us/drivers/) 
 - Restart your computer.
+
+> The default display build is configured for sh110x, if you want change for SSD1306 open platformio.ini and change ``default_envs`` value to  ``ssd1306``
+
 
 ## Usage :
 At first run the firmware store a default config in EEPROM
