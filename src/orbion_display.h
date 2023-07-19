@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ORBIONDISP_H
 #define ORBIONDISP_H
 

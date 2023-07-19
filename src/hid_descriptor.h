@@ -1,6 +1,9 @@
 // Credits jfedor (github)
 // This Mimic the Hid descriptor of 3Dconnexion SpaceMouse compact
 // setUSB.py at root allows to set Vip:Pid required to let the drivers recognize the Mouse
+#pragma once
+#ifndef HIDDESCRIPTOR_H
+#define HIDDESCRIPTOR_H
 
 static const uint8_t _hidReportDescriptor[] PROGMEM = {
   0x05, 0x01,           //  Usage Page (Generic Desktop)
@@ -72,3 +75,5 @@ void send_buttons(uint8_t L_state, uint8_t R_state){
        laststate = buttons_state;
   }
 }
+
+#endif

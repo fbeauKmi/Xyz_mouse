@@ -23,9 +23,12 @@ Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
 
 ## Installation :
 
-Clone the current repo, 
-Compile and upload the firmware with platformio in Vscode.
-Install 3DConnexion drivers  
+It can be tricky to get the firmware to be recognized by the system. Follow this steps to get it work.
+- Clone the current repo,
+- Compile and upload the firmware with platformio in Vscode.
+- Unplug/plug the Orbion
+- Install the [3DConnexion drivers](https://3dconnexion.com/us/drivers/) 
+- Restart your computer.
 
 ## Usage :
 At first run the firmware store a default config in EEPROM
@@ -57,6 +60,15 @@ Press B3 button to enter menu
     - Screensave timeout
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
+
+## Troubleshooting
+_**I cannot access the Settings menu pressing B3:**_
+
+  Check if settings.h follows your pinout. 
+
+_**Black screen at startup, Not recognize as SpaceMouse**_
+
+  Uninstall/reinstall 3Dconnexion drivers. Restart you computer.
 
 ## Any questions
 

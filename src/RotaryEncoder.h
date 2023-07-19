@@ -16,6 +16,7 @@
 // july 2023 simplified to minimize footprint
 // -----
 
+#pragma once
 #ifndef RotaryEncoder_h
 #define RotaryEncoder_h
 
