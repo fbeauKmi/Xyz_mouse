@@ -13,4 +13,4 @@
 #define joyButt           A1         // SW Joystick
 #define button1           7          // Rear Button
 #define button2           8          // Rear Button    
-#define button3           9          // Rear Button    
+#define button3           9          // Rear Button

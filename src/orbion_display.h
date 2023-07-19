@@ -3,21 +3,31 @@
 #define ORBIONDISP_H
 
 #include <Arduino.h>
-#include <Adafruit_SH110X.h>
-#include <EEPROM.h>
+
+/// Uncomment/comment display line
+/// Only one line at a time
+// #define SSD1306
+
+///
+
 #include "string.h"
 #include "Orbion_neopixel.h"
 #include "struct.h"  // project structs 
 #include "logo.h"
 #include "strings.h"
 #include <Wire.h>
+#ifdef SSD1306
+    #define SH110X_WHITE WHITE
+    #define SH110X_BLACK BLACK
+    #include "display/ssd1306.h"
+#endif
+#ifdef SH110X
+     #include "display/sh110x.h"
+#endif
 
 #define _ENTRY_MODE 2
 
-#define SSD1306 LOW
-#define WHITE SH110X_WHITE
-
-class Orbion_display : public Adafruit_SH1106G
+class Orbion_display : public display_
     {
         protected:
             int8_t current_menu=1;
@@ -89,6 +99,5 @@ class Orbion_display : public Adafruit_SH1106G
             void fillrect_center(const String &t);
             void _jog(int8_t inc, uint8_t * axevalue, uint64_t *timer );
     };
-
 
 #endif
