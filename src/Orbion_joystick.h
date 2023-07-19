@@ -22,7 +22,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
+
 #pragma once
+#ifndef ORBIONJOYSTICK_H
+#define ORBIONJOYSTICK_H
 
 #include "Arduino.h"
 #include <stdint.h>
@@ -60,3 +64,5 @@ class Orbion_joystick {
     uint32_t _T;
     
 };
+
+#endif

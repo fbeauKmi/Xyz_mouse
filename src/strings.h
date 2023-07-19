@@ -27,8 +27,8 @@ const char menu110[] PROGMEM = "Knob dir";
 const char menu111[] PROGMEM = "PAN / TILT";
 const char menu43[] PROGMEM = "Color 1";
 const char menu44[] PROGMEM = "Color 2";
-const char menu41[] PROGMEM = "Motion Mode";
-const char menu42[] PROGMEM = "Color Mode";
+const char menu41[] PROGMEM = "Led Motion";
+const char menu42[] PROGMEM = "Led Colors";
 const char menu45[] PROGMEM = "Timeout (sec)";
 
 // arMenu 
@@ -63,7 +63,7 @@ const char cmode0[] PROGMEM = "Color 1";
 const char cmode1[] PROGMEM = "Mixed";
 const char cmode2[] PROGMEM = "Rainbow";
 
-const byte defaultVal[] PROGMEM = {0x0,0x2,0x2D,0x7E,0x2,0x2,0x1E};
+const byte defaultVal[] PROGMEM = {0x0,0x0,0x2D,0x7E,0x2,0x2,0x1E};
 
 
 const char *const datas[] PROGMEM = {(const char *) arMenu,

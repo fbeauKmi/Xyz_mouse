@@ -101,6 +101,10 @@ void screensaver(void){
 /////////////////////////////////  SETUP ///////////////////////////
 
 void setup() {
+  // init HID
+  static HIDSubDescriptor node(_hidReportDescriptor, sizeof(_hidReportDescriptor));
+  HID().AppendDescriptor(&node);
+
   // init and calibrate joystick
   Joystick.Init();
   
@@ -110,10 +114,7 @@ void setup() {
 
   leds.begin();
   led_config();
-
-  // init HID
-  static HIDSubDescriptor node(_hidReportDescriptor, sizeof(_hidReportDescriptor));
-  HID().AppendDescriptor(&node);
+  
 }
 
 /////////////////////////////////  LOOP  ////////////////////////////
