@@ -1,20 +1,30 @@
 #include "orbion_display.h"
 #include <EEPROM.h>
 
-Orbion_display::Orbion_display()
+#ifdef SSD1306
+Orbion_display::Orbion_display():Adafruit_SSD1306(128, 64, &Wire, 4)
+#else
+Orbion_display::Orbion_display():Adafruit_SH1106G(128, 64, &Wire, 4)
+#endif
 {
     strcpy_P(list, (char*)pgm_read_word(&(datas[0])));
     strcpy_P(actions, (char*)pgm_read_word(&(datas[1])));
     strcpy_P(itemPos, (char*)pgm_read_word(&(datas[2])));
     strcpy_P(ee_address, (char*)pgm_read_word(&(datas[3])));
     strcpy_P(action_strings, (char*)pgm_read_word(&(datas[4])));
-}
+};     
 
-void Orbion_display::init(){
-    display_init();
+void Orbion_display::init()
+{
+#ifdef SSD1306
+    begin(SSD1306_SWITCHCAPVCC, 0x3C);
+#else    
+    begin(0x3C, true); // Address 0x3C default
+#endif
     setRotation(2);   // define screen orientation
     clear();          // Clear screen at startup
-}
+};
+
 
 void Orbion_display::update()
 {
