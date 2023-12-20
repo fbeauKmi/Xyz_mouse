@@ -12,6 +12,7 @@ typedef struct
   int8_t Encoder;  
   uint8_t led_mode;
   uint8_t led_color_mode;
+  uint8_t contrast;
   
 } MenuConfig;
 
