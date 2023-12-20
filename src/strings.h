@@ -8,14 +8,15 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "Xyz Mouse v0.1"
+#define FIRMWARE_NAME "Xyz Mouse v0.2"
 
-#define PANTILT_AM   1
-#define KNOBDIR_AM   3
-#define COLOR_AM     5
-#define MOTIONMOD_AM 6
-#define COLORMODE_AM 7
-#define TIMEOUT_AM   8
+#define PANTILT_AM    1
+#define KNOBDIR_AM    3
+#define COLOR_AM      5
+#define MOTIONMOD_AM  6
+#define COLORMODE_AM  7
+#define TIMEOUT_AM    8
+#define CONTRAST_AM 9
 
 // _____________________ Menu strings _____________________ //
 
@@ -29,23 +30,24 @@ const char menu43[] PROGMEM = "Color 1";
 const char menu44[] PROGMEM = "Color 2";
 const char menu41[] PROGMEM = "Led Motion";
 const char menu42[] PROGMEM = "Led Colors";
+const char menu46[] PROGMEM = "OLED Contrast";
 const char menu45[] PROGMEM = "Timeout (sec)";
 
 // arMenu 
 // first byte : pos of menu00 in PROGMEM array
 // other : offpos of menu in array + nb of items
-const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x11U, 0x27U} ;
+const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x11U, 0x28U} ;
 // actions
 // Menu action function for each menu items (see Orbion_display::action)
-const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, COLOR_AM, COLOR_AM, MOTIONMOD_AM, COLORMODE_AM, TIMEOUT_AM};
+const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, COLOR_AM, COLOR_AM, MOTIONMOD_AM, COLORMODE_AM, CONTRAST_AM, TIMEOUT_AM};
 // Display item pos in array = f(actionMode) from 1st item
-const byte itemPos[] PROGMEM = {1,255,3,255,255,5,8,255};
+const byte itemPos[] PROGMEM = {1,255,3,255,255,5,8,255,255};
 // EE_address
 // EEPROM address for each settings (last one is a control byte if )
-const byte EE_address[] PROGMEM = {11,39,46,41,54,57,5,2};
+const byte EE_address[] PROGMEM = {11,39,46,41,54,57,13,4,2};
 // first byte : pos of first item  in PROGMEM array
 // other : length of array
-const byte arAction[] PROGMEM = {0x0F, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x60 } ;
+const byte arAction[] PROGMEM = {0x0F, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x3C, 0x06} ;
 
 
 const char jm0[] PROGMEM = "Normal";
@@ -74,7 +76,7 @@ const char *const datas[] PROGMEM = {(const char *) arMenu,
                                         (const char *) defaultVal,
                                         menu00,
                                         menu10,
-                                        menu110,menu111,menu43,menu44,menu41,menu42,menu45,
+                                        menu110,menu111,menu43,menu44,menu41,menu42,menu46,menu45,
                                         jm0, jm1, 
                                         normal,reversed,
                                         mmode0,mmode1,mmode2,

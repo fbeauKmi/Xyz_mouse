@@ -36,6 +36,7 @@ void Orbion_display::update()
             toupdate= !toupdate;
             
             clearDisplay();
+            setContrast(conf.contrast << 5);
             setTextColor(SH110X_WHITE);
             setTextSize(1);
 
@@ -163,6 +164,8 @@ void Orbion_display::action()
                 _leds->display(0,1,c,0);
                 }
             break;
+            case CONTRAST_AM:
+                setContrast((actionvalue+1) << 5);
             default:
                 setTextColor(SH110X_WHITE);
                 print(actionvalue +1);
@@ -347,7 +350,7 @@ uint8_t Orbion_display::EE_read(uint8_t id, uint8_t offset)
 
 void Orbion_display::loadConfig()
 {
-    if(EE_read(8) == 1){ /// Check if EEPROM stores the config and read it
+    if(EE_read(9) == 1){ /// Check if EEPROM stores the config and read it
         conf.Mode = EE_read(2);
         conf.Encoder = EE_read(1) ? -1 : 1;
 
@@ -355,15 +358,16 @@ void Orbion_display::loadConfig()
         conf.color2= _leds->Color(EE_read(4),EE_read(4,1),EE_read(4,2));;
         conf.led_mode= EE_read(5);
         conf.led_color_mode= EE_read(6);
-        conf.timeout = EE_read(7) * 1000;
+        conf.contrast= EE_read(7);
+        conf.timeout = EE_read(8) * 1000;
 
      }else{
 
 // first run Write default settings on EEPROM
-        EE_write(8,1);
-        byte var[7];
+        EE_write(9,1);
+        byte var[8];
         memcpy_P(var,pgm_read_word(&datas[5]),11);
-        for(uint8_t i=0; i<7; i++)
+        for(uint8_t i=0; i<8; i++)
         {
         EE_write(i+1,var[i]);
         } 
