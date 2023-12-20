@@ -14,3 +14,8 @@
 #define button1           7          // Rear Button
 #define button2           8          // Rear Button    
 #define button3           9          // Rear Button
+
+// Experimental : to use with AFUdirk Knob
+// Uncomment the lines below to use the knob instead of Encoder
+// #define AxisZ           A6
+// #define RotateKnob      A7     

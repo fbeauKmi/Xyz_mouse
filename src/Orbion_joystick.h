@@ -22,8 +22,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
-
 #pragma once
 #ifndef ORBIONJOYSTICK_H
 #define ORBIONJOYSTICK_H
@@ -35,6 +33,7 @@
 class Orbion_joystick {
    public:
     Orbion_joystick(uint8_t pin_x, uint8_t pin_y);
+    Orbion_joystick(uint8_t pin_x, uint8_t pin_y, uint8_t pin_z);
     ~Orbion_joystick();
     void Init();
     void Update();
@@ -47,15 +46,19 @@ class Orbion_joystick {
     
     int16_t x();
     int16_t y();
+    int16_t z();
 
    private:
     // joystick variables
     uint8_t gpio_pin_x;
     uint8_t gpio_pin_y;
+    uint8_t gpio_pin_z;
     int16_t zero_x;
     int16_t zero_y;
+    int16_t zero_z;
     int16_t value_int_x;
     int16_t value_int_y;
+    int16_t value_int_z;
     
     int8_t deadzone;
     int16_t axev(int16_t  value);

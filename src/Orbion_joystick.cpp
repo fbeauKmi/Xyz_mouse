@@ -22,21 +22,48 @@
 
 #include "Orbion_joystick.h"
 
+#ifndef AxesZ
 Orbion_joystick::Orbion_joystick(
     uint8_t pin_x,
     uint8_t pin_y)
 {
-    gpio_pin_x = pin_x;
+     gpio_pin_x = pin_x;
     gpio_pin_y = pin_y;
+    gpio_pin_z = 0;
     zero_x = 0;
     zero_y = 0;
+    zero_z = 0;
     value_int_x = 0;
     value_int_y = 0;
+    value_int_z = 0;
     deadzone = 5;
     
     _T=millis();
     _triggered=false;
 }
+
+#else
+Orbion_joystick::Orbion_joystick(
+    uint8_t pin_x,
+    uint8_t pin_y,
+    uint8_t pin_z)
+{
+    
+    gpio_pin_x = pin_x;
+    gpio_pin_y = pin_y;
+    gpio_pin_z = pin_z;
+    zero_x = 0;
+    zero_y = 0;
+    zero_z = 0;
+    value_int_x = 0;
+    value_int_y = 0;
+    value_int_z = 0;
+    deadzone = 5;
+    
+    _T=millis();
+    _triggered=false;
+}
+#endif
 
 Orbion_joystick::~Orbion_joystick()
 {
@@ -47,6 +74,9 @@ void Orbion_joystick::Init()
     
     pinMode(gpio_pin_x, INPUT);
     pinMode(gpio_pin_y, INPUT);
+#ifdef AxesZ
+    pinMode(gpio_pin_z, INPUT);
+#endif
 
     CalibrateZero();
 }
@@ -66,9 +96,12 @@ void Orbion_joystick::Update()
     // read the Orbion_joystick
     value_int_y = analogRead(gpio_pin_y);
     value_int_x = analogRead(gpio_pin_x);
+#ifdef AxesZ
+    value_int_z = analogRead(gpio_pin_z);
+#endif
 
     // triggered state
-    _triggered = abs((value_int_x - zero_x) | (value_int_y - zero_y)) > deadzone ;
+    _triggered = abs((value_int_x - zero_x) | (value_int_y - zero_y) | (value_int_z - zero_z)) > deadzone ;
 }
 
 
@@ -77,16 +110,25 @@ void Orbion_joystick::CalibrateZero()
     // calibrate the Orbion_joystick mid point
     int32_t in_x = 0;
     int32_t in_y = 0;
+#ifdef AxesZ
+    int32_t in_z = 0;
+#endif
     
     for (int i = 0; i < 16; i++) {
         Update();
         in_x += value_int_x;
         in_y += value_int_y;
+#ifdef AxesZ
+        in_z += value_int_z;
+#endif
         delay(20);
     }
 
     zero_x = in_x >> 4 ;
     zero_y = in_y >> 4 ;
+#ifdef AxesZ
+    zero_z = in_z >> 4 ;
+#endif
 }
 
 int16_t Orbion_joystick::x()
@@ -100,6 +142,17 @@ int16_t Orbion_joystick::y()
     int16_t value = ((uint16_t)value_int_y - zero_y);
     return axev(value) >> 1;
 };
+
+#ifdef AxesZ
+int16_t Orbion_joystick::z()
+{
+    if(gpio_pin_z){
+        int16_t value = ((uint16_t)value_int_z - zero_z);
+        return axev(value) >> 1;
+    }
+    return 0;
+};
+#endif
 
 int16_t Orbion_joystick::axev(int16_t value)
 {
