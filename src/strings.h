@@ -8,7 +8,7 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "Xyz Mouse v0.2"
+#define FIRMWARE_NAME "Xyz Mouse v0.2.1"
 
 #define PANTILT_AM    1
 #define KNOBDIR_AM    3
@@ -47,7 +47,7 @@ const byte itemPos[] PROGMEM = {1,255,3,255,255,5,8,255,255};
 const byte EE_address[] PROGMEM = {11,39,46,41,54,57,13,4,2};
 // first byte : pos of first item  in PROGMEM array
 // other : length of array
-const byte arAction[] PROGMEM = {0x0F, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x3C, 0x06} ;
+const byte arAction[] PROGMEM = {0x10, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x3C, 0x08} ;
 
 
 const char jm0[] PROGMEM = "Normal";
