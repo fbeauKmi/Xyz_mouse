@@ -57,7 +57,9 @@ At first run the firmware store a default config in EEPROM
 Press B3 button to enter menu
 - Settings
     - Knob Direction (L hand / R hand)
-    - PAN / TILT (reverser behavior when knob button is pressed)
+    - PAN / TILT (reverse behavior when knob button is pressed)
+    - DZ width (change joystick deadzone setting)
+    - Sensitivity (Joystick)
     - Color 1 (For led Effects)
     - Color 2
     - Color mode (Color 1 , gradient(color 1, color 2), Rainbow) 
@@ -77,7 +79,7 @@ _**Black screen at startup, Not recognize as SpaceMouse**_
 
 ## Any questions
 
-@fboc#1751 on Discord
+@fboc on Discord
 
 ## Inspiration sources : 
 - https://github.com/jfedor2/spaceball-2003

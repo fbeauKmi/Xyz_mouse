@@ -200,7 +200,7 @@ void Orbion_display::scroll(int8_t inc)
    }else{
     actionvalue = actionmode == COLOR_AM ? 
                     actionvalue + (inc==1 ? 8 : -8) : 
-                    min(action_strings[actionmode],max(0,actionvalue-inc));
+                    min(action_strings[actionmode],max(0,actionvalue+inc));
    }
 }
 
@@ -354,7 +354,7 @@ void Orbion_display::loadConfig()
         conf.Mode = EE_read(3);
         conf.Encoder = EE_read(2) ? -1 : 1;
 
-        conf.dz = min(20, EE_read(4)); /// limit DZ and sensitivity
+        conf.dz = min(19, EE_read(4)); /// limit DZ and sensitivity
         conf.sensitivity = min(4, EE_read(5));
 
         conf.color1 = _leds->Color(EE_read(6),EE_read(6,1),EE_read(6,2));
