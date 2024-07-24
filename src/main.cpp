@@ -104,13 +104,15 @@ void setup() {
   // init HID
   static HIDSubDescriptor node(_hidReportDescriptor, sizeof(_hidReportDescriptor));
   HID().AppendDescriptor(&node);
-
-  // init and calibrate joystick
-  Joystick.Init();
   
   // init display, leds
   display.init();
   display.setleds(&leds); // link leds to display
+
+  // init and calibrate joystick
+  Joystick.Init();
+  Joystick.SetDeadzone(display.conf.dz);
+  Joystick.SetSensitivity(display.conf.sensitivity);
 
   leds.begin();
   led_config();
@@ -143,6 +145,8 @@ void loop() {
         if(b3.clicked() ){
           display.back();
           led_config();
+          Joystick.SetDeadzone(display.conf.dz);
+          Joystick.SetSensitivity(display.conf.sensitivity);
         }
 
         display.jogy(Joystick.y()>>2);

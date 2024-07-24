@@ -13,6 +13,8 @@ typedef struct
   uint8_t led_mode;
   uint8_t led_color_mode;
   uint8_t contrast;
+  uint8_t dz;
+  uint8_t sensitivity;
   
 } MenuConfig;
 

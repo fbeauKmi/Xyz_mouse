@@ -200,7 +200,7 @@ void Orbion_display::scroll(int8_t inc)
    }else{
     actionvalue = actionmode == COLOR_AM ? 
                     actionvalue + (inc==1 ? 8 : -8) : 
-                    min(action_strings[actionmode],max(0,actionvalue-inc));
+                    min(action_strings[actionmode],max(0,actionvalue+inc));
    }
 }
 
@@ -238,7 +238,7 @@ void Orbion_display::enter()
     toupdate=true;
     select();
   }else{
-    uint8_t id = startpos + current_item - list[0] - list[1];
+    uint8_t id = startpos + current_item - list[0] - list[1] + 1;
     if(actionmode){            // Update EEPROM
     EE_write(id , actionvalue);
     if(actionmode==COLOR_AM){
@@ -248,7 +248,7 @@ void Orbion_display::enter()
     loadConfig();
     back();
     } else {                         // Read EEPROM
-    actionmode = actions[id-1] & 0x0F;
+    actionmode = actions[id-2] & 0x0F;
     actionvalue =  EE_read(id) ;
     actionvalue = min(actionvalue,(uint8_t) action_strings[actionmode]);
     str_pos = itemPos[actionmode-1] - 1 ;
@@ -350,24 +350,27 @@ uint8_t Orbion_display::EE_read(uint8_t id, uint8_t offset)
 
 void Orbion_display::loadConfig()
 {
-    if(EE_read(9) == 1){ /// Check if EEPROM stores the config and read it
-        conf.Mode = EE_read(2);
-        conf.Encoder = EE_read(1) ? -1 : 1;
+    if(EE_read(1) == 1){ /// Check if EEPROM stores the config and read it
+        conf.Mode = EE_read(3);
+        conf.Encoder = EE_read(2) ? -1 : 1;
 
-        conf.color1 = _leds->Color(EE_read(3),EE_read(3,1),EE_read(3,2));
-        conf.color2= _leds->Color(EE_read(4),EE_read(4,1),EE_read(4,2));;
-        conf.led_mode= EE_read(5);
-        conf.led_color_mode= EE_read(6);
-        conf.contrast= EE_read(7);
-        conf.timeout = EE_read(8) * 1000;
+        conf.dz = min(19, EE_read(4)); /// limit DZ and sensitivity
+        conf.sensitivity = min(4, EE_read(5));
 
+        conf.color1 = _leds->Color(EE_read(6),EE_read(6,1),EE_read(6,2));
+        conf.color2= _leds->Color(EE_read(7),EE_read(7,1),EE_read(7,2));;
+        conf.led_mode= EE_read(8);
+        conf.led_color_mode= EE_read(9);
+        conf.contrast= EE_read(10);
+        conf.timeout = EE_read(11) * 1000;
+        
      }else{
 
 // first run Write default settings on EEPROM
-        EE_write(9,1);
-        byte var[8];
+        EE_write(1,1);
+        byte var[10];
         memcpy_P(var,pgm_read_word(&datas[5]),11);
-        for(uint8_t i=0; i<8; i++)
+        for(uint8_t i=0; i<10; i++)
         {
         EE_write(i+1,var[i]);
         } 
