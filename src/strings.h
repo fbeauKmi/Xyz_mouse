@@ -44,10 +44,10 @@ const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, COLOR_AM, COLOR_AM, MOTI
 const byte itemPos[] PROGMEM = {1,255,3,255,255,5,8,255,255};
 // EE_address
 // EEPROM address for each settings (last one is a control byte if )
-const byte EE_address[] PROGMEM = {11,39,46,41,54,57,13,4,2};
+const byte EE_address[] PROGMEM = {2,11,39,46,41,54,57,13,4};
 // first byte : pos of first item  in PROGMEM array
 // other : length of array
-const byte arAction[] PROGMEM = {0x10, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x3C, 0x08} ;
+const byte arAction[] PROGMEM = {0x10, 0x01, 0xFFU, 0x01, 0xFFU, 0xFFU, 0x2, 0x3, 0x3C, 0x04} ;
 
 
 const char jm0[] PROGMEM = "Normal";
