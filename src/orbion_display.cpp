@@ -354,8 +354,8 @@ void Orbion_display::loadConfig()
         conf.Mode = EE_read(3);
         conf.Encoder = EE_read(2) ? -1 : 1;
 
-        conf.dz = EE_read(4);
-        conf.sensitivity = EE_read(5);
+        conf.dz = min(20, EE_read(4)); /// limit DZ and sensitivity
+        conf.sensitivity = min(4, EE_read(5));
 
         conf.color1 = _leds->Color(EE_read(6),EE_read(6,1),EE_read(6,2));
         conf.color2= _leds->Color(EE_read(7),EE_read(7,1),EE_read(7,2));;

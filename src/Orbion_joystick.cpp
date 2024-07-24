@@ -84,7 +84,7 @@ void Orbion_joystick::Init()
 
 void Orbion_joystick::SetDeadzone(int16_t dz)
 {
-    deadzone = dz<<3;
+    deadzone = dz << 3;
 };
 
 int16_t Orbion_joystick::GetDeadzone()
