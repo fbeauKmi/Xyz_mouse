@@ -354,20 +354,23 @@ void Orbion_display::loadConfig()
         conf.Mode = EE_read(3);
         conf.Encoder = EE_read(2) ? -1 : 1;
 
-        conf.color1 = _leds->Color(EE_read(4),EE_read(4,1),EE_read(4,2));
-        conf.color2= _leds->Color(EE_read(5),EE_read(5,1),EE_read(5,2));;
-        conf.led_mode= EE_read(6);
-        conf.led_color_mode= EE_read(7);
-        conf.contrast= EE_read(8);
-        conf.timeout = EE_read(9) * 1000;
+        conf.dz = EE_read(4);
+        conf.sensitivity = EE_read(5);
 
+        conf.color1 = _leds->Color(EE_read(6),EE_read(6,1),EE_read(6,2));
+        conf.color2= _leds->Color(EE_read(7),EE_read(7,1),EE_read(7,2));;
+        conf.led_mode= EE_read(8);
+        conf.led_color_mode= EE_read(9);
+        conf.contrast= EE_read(10);
+        conf.timeout = EE_read(11) * 1000;
+        
      }else{
 
 // first run Write default settings on EEPROM
         EE_write(1,1);
-        byte var[8];
+        byte var[10];
         memcpy_P(var,pgm_read_word(&datas[5]),11);
-        for(uint8_t i=0; i<8; i++)
+        for(uint8_t i=0; i<10; i++)
         {
         EE_write(i+1,var[i]);
         } 

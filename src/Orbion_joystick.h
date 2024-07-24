@@ -40,6 +40,8 @@ class Orbion_joystick {
     void CalibrateZero();
     void SetDeadzone(int16_t deadzone);
     int16_t GetDeadzone();
+    void SetSensitivity(int16_t sensivity);
+    int16_t GetSensitivity();
     
     bool isTriggered();
     void action(bool buttonPressed,  void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t));
@@ -61,6 +63,7 @@ class Orbion_joystick {
     int16_t value_int_z;
     
     int8_t deadzone;
+    int8_t sensitivity;
     int16_t axev(int16_t  value);
   
     bool _triggered;

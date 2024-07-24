@@ -37,6 +37,7 @@ Orbion_joystick::Orbion_joystick(
     value_int_y = 0;
     value_int_z = 0;
     deadzone = 5;
+    sensitivity = 1;
     
     _T=millis();
     _triggered=false;
@@ -83,12 +84,22 @@ void Orbion_joystick::Init()
 
 void Orbion_joystick::SetDeadzone(int16_t dz)
 {
-    deadzone = dz;
+    deadzone = dz<<3;
 };
 
 int16_t Orbion_joystick::GetDeadzone()
 {
     return deadzone;
+};
+
+void Orbion_joystick::SetSensitivity(int16_t sens)
+{
+    sensitivity = sens;
+};
+
+int16_t Orbion_joystick::GetSensitivity()
+{
+    return sensitivity;
 };
 
 void Orbion_joystick::Update()
@@ -134,13 +145,13 @@ void Orbion_joystick::CalibrateZero()
 int16_t Orbion_joystick::x()
 {
     int16_t value = (value_int_x - zero_x);
-    return axev(value) >> 1;
+    return (axev(value) >> 2) << sensitivity;
 };
 
 int16_t Orbion_joystick::y()
 {
     int16_t value = ((uint16_t)value_int_y - zero_y);
-    return axev(value) >> 1;
+    return (axev(value) >> 2) << sensitivity;
 };
 
 #ifdef AxesZ
