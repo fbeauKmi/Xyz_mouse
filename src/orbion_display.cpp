@@ -25,6 +25,14 @@ void Orbion_display::init()
     clear();          // Clear screen at startup
 };
 
+#ifdef SSD1306
+void Orbion_display::setContrast(uint8_t contrast)
+{
+//   ssd1306_command(SSD1306_SETCONTRAST);
+//    ssd1306_command(contrast);
+}
+#endif
+
 
 void Orbion_display::update()
 {
