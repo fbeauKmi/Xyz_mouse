@@ -91,6 +91,9 @@ class Orbion_display : public Adafruit_SH1106G
             void print_center(const String &t,int8_t x, uint8_t w);
             void fillrect_center(const String &t);
             void _jog(int8_t inc, uint8_t * axevalue, uint64_t *timer );
+            #ifdef SSD1306
+            void setContrast(uint8_t contrast);
+            #endif
     };
 
 
