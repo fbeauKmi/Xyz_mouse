@@ -67,7 +67,6 @@ class Orbion_joystick {
     int16_t axev(int16_t  value);
   
     bool _triggered;
-    uint32_t _T;
     
 };
 
