@@ -39,7 +39,6 @@ Orbion_joystick::Orbion_joystick(
     deadzone = 5;
     sensitivity = 1;
     
-    _T=millis();
     _triggered=false;
 }
 
@@ -61,7 +60,6 @@ Orbion_joystick::Orbion_joystick(
     value_int_z = 0;
     deadzone = 5;
     
-    _T=millis();
     _triggered=false;
 }
 #endif
@@ -84,23 +82,25 @@ void Orbion_joystick::Init()
 
 void Orbion_joystick::SetDeadzone(int16_t dz)
 {
-    deadzone = dz << 3;
-};
+    /* Fix issue #16 : Joystick calibrating not working correctly 
+    dz must be > 0 */
+    deadzone = (dz + 1) << 2; 
+}
 
 int16_t Orbion_joystick::GetDeadzone()
 {
     return deadzone;
-};
+}
 
 void Orbion_joystick::SetSensitivity(int16_t sens)
 {
     sensitivity = sens;
-};
+}
 
 int16_t Orbion_joystick::GetSensitivity()
 {
     return sensitivity;
-};
+}
 
 void Orbion_joystick::Update()
 {
@@ -119,59 +119,46 @@ void Orbion_joystick::Update()
 void Orbion_joystick::CalibrateZero()
 {
     // calibrate the Orbion_joystick mid point
-    int32_t in_x = 0;
-    int32_t in_y = 0;
+    delay(20);
+    Update();
+    zero_x = value_int_x;
+    zero_y = value_int_y;
 #ifdef AxesZ
-    int32_t in_z = 0;
-#endif
-    
-    for (int i = 0; i < 16; i++) {
-        Update();
-        in_x += value_int_x;
-        in_y += value_int_y;
-#ifdef AxesZ
-        in_z += value_int_z;
-#endif
-        delay(20);
-    }
-
-    zero_x = in_x >> 4 ;
-    zero_y = in_y >> 4 ;
-#ifdef AxesZ
-    zero_z = in_z >> 4 ;
+    zero_z = value_int_z;
 #endif
 }
 
 int16_t Orbion_joystick::x()
 {
     int16_t value = (value_int_x - zero_x);
-    return (axev(value) >> 2) << sensitivity;
-};
+    return (axev(value) << sensitivity) >> 2;
+}
 
 int16_t Orbion_joystick::y()
 {
-    int16_t value = ((uint16_t)value_int_y - zero_y);
-    return (axev(value) >> 2) << sensitivity;
-};
+    int16_t value = (value_int_y - zero_y);
+    return (axev(value) << sensitivity) >> 2;
+}
 
 #ifdef AxesZ
 int16_t Orbion_joystick::z()
 {
     if(gpio_pin_z){
-        int16_t value = ((uint16_t)value_int_z - zero_z);
-        return axev(value) >> 1;
+        int16_t value = (value_int_z - zero_z);
+        return (axev(value) << sensitivity) >> 2;
     }
     return 0;
-};
+}
+
 #endif
 
 int16_t Orbion_joystick::axev(int16_t value)
 {
     if (value > deadzone) {
-        return max(0, value - deadzone);
+        return value - deadzone;
     }
     else if (value < (- deadzone)) {
-        return min(0, value + deadzone);
+        return value + deadzone;
     }
     else {
         return 0;
@@ -184,8 +171,10 @@ bool Orbion_joystick::isTriggered(){
 
 void Orbion_joystick::action(bool buttonPressed, void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t) )
 {
-        if(millis()-_T> 10 ){
-            _T=millis();
+        static uint32_t _T=0;
+        uint32_t currentMillis = millis();
+        if (currentMillis - _T > 10 ) {
+            _T = currentMillis;
             if (buttonPressed){
                 (*send_cmd)(0,0,0,-1*y(),x(),0);
             }else{
