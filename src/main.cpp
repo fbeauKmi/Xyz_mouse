@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////
-//////////  M-Xyz  V0.1alpha  /////////////////////////
+//////////  M-Xyz  V0.3.2  ////////////////////////////
 //////////  an Alternate firmware for Orbion //////////
 //////////  by @fboc#1751 /////////////////////////////
 //////////  Licence GNU GPL V3.0  /////////////////////
@@ -64,8 +64,9 @@ void led_config()
 void screensaver(void){
     static unsigned long timeoff;
     static bool screensave = false;
+    uint32_t currentMillis=millis();
 ////    ScreenSaver   ///// 
-    if(millis() - timeoff > max(3000,display.conf.timeout)){
+    if(currentMillis - timeoff > max(3000,display.conf.timeout)){
       // Enter Screensave mode
       if(!screensave){
         screensave = !screensave;
@@ -93,7 +94,7 @@ void screensaver(void){
       Joystick.isTriggered() || Encoder.getDirection())
     {
         leds.knobInc(Encoder.getDirectionHalf(), KNOB_DIR*display.conf.Encoder);
-        timeoff=millis();
+        timeoff=currentMillis;
     }
 
 }

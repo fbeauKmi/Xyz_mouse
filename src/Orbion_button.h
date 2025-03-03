@@ -27,7 +27,8 @@ class Orbion_button
       bool ispressed = false;
       bool isreset = true;
       uint8_t lastState;
-      bool _triggered;     
+      bool _triggered; 
+      uint32_t _currentMillis; 
 
     };
 
