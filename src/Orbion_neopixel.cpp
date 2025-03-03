@@ -33,11 +33,12 @@ void Orbion_Neopixel::display(uint8_t mode, uint8_t color_mode, uint32_t color1,
 // color_mode : 0 = off, 1= color1, 2= mix(color1, color2), 3=rainbow
 void Orbion_Neopixel::display(void){    
     uint32_t color = _color1;
-
+    uint32_t currentMillis = millis();
+    
     knobInc(0,1);
-    if(millis()-_lastframe > 150)
+    if(currentMillis-_lastframe > 150)
       {
-      _lastframe=millis();
+      _lastframe=currentMillis;
       
       clear();
       uint8_t first = (_mode ? (pos % n) : 0);

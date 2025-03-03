@@ -44,6 +44,7 @@ private:
   int8_t _direction;  // direction of the knob catch by [0] and [3]
   int8_t _direction_half;  // direction of the knob catch by [3]
   int16_t _increment;
+  uint32_t _currentMillis;
 };
 
 #endif

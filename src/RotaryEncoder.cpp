@@ -59,9 +59,9 @@ void RotaryEncoder::update(void)
   
   _direction = 0;
   _direction_half = 0;
-
-  if (millis()-hS>5){
-    hS=millis();
+  _currentMillis = millis();
+  if (_currentMillis-hS>5){
+    hS=_currentMillis;
     
     if (_oldState!=thisState){
       
@@ -74,7 +74,6 @@ void RotaryEncoder::update(void)
       }
       
       _oldState = thisState;
-      return;
     }
   } 
 
@@ -97,15 +96,15 @@ void RotaryEncoder::action(bool buttonPressed, int8_t dir, void (*send_cmd)(int1
     _increment = min(500,_increment+32);
     lastDirection = getDirection();
   } else {
-    if(millis() - hS > 6){
-      hS = millis();
+    if(_currentMillis - hS > 6){
+      hS = _currentMillis;
       _increment = max(0,_increment-2);
     }
   }
   
   // report HID every 10 ms if needed
-  if (millis() - hidDebounce > 10 && _increment){
-    hidDebounce=millis();
+  if (_currentMillis - hidDebounce > 10 && _increment){
+    hidDebounce=_currentMillis;
       if(buttonState != buttonPressed){
         _increment=0;
       }

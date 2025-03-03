@@ -1,11 +1,8 @@
 #include "Orbion_button.h"
 
-Orbion_button::Orbion_button(int pin){
-  _pin = pin;
-  lastState = HIGH;
-  _triggered = false;
+Orbion_button::Orbion_button(int pin)
+  : _pin(pin), lastState(HIGH), _triggered(false) {
   pinMode(_pin, INPUT_PULLUP);
-  
 }
 
 Orbion_button::~Orbion_button()
@@ -15,16 +12,17 @@ Orbion_button::~Orbion_button()
 void Orbion_button::update(){
 
   uint8_t reading = digitalRead(_pin);
+  _currentMillis = millis();
   if (reading != lastState) {
     // reset the debouncing timer
-    lastDebounceTime = millis();
+    lastDebounceTime = _currentMillis;
   }
-  if ((millis() - lastDebounceTime) > 500 && reading == HIGH){
+  if ((_currentMillis - lastDebounceTime) > 500 && reading == HIGH){
     reset();
-    lastDebounceTime = millis();
+    lastDebounceTime = _currentMillis;
 
   }else
-  if ((millis() - lastDebounceTime) > DEBOUNCE_DELAY) {
+  if ((_currentMillis - lastDebounceTime) > DEBOUNCE_DELAY) {
     // whatever the reading is at, it's been there for longer than the debounce
     // delay, so take it as the actual current state:
     if (reading == LOW){
@@ -33,14 +31,13 @@ void Orbion_button::update(){
           ispressed = true;
         }
         isreset=false;
-        lastCount = millis();
+        lastCount = _currentMillis;
       }
     }else{
       ispressed = false;
     } 
   }
   lastState=reading;
-  return;
 }
 
 bool Orbion_button::isPressed(){
@@ -50,12 +47,11 @@ bool Orbion_button::isPressed(){
 void Orbion_button::reset(){
   if(!isreset){
     isreset = true;
-    return;
   }
 }
 
 bool Orbion_button::clicked(){
-  if( ispressed && !isreset  && millis()- lastCount> 60 ){
+  if( ispressed && !isreset  && _currentMillis - lastCount> 60 ){
     reset();
     return true;
   }

@@ -28,8 +28,7 @@ void Orbion_display::init()
 #ifdef SSD1306
 void Orbion_display::setContrast(uint8_t contrast)
 {
-//   ssd1306_command(SSD1306_SETCONTRAST);
-//    ssd1306_command(contrast);
+
 }
 #endif
 
@@ -37,8 +36,10 @@ void Orbion_display::setContrast(uint8_t contrast)
 void Orbion_display::update()
 {
     static long timer=0;
-    if(millis()-timer>150){
-        timer=millis();
+    _currentMillis=millis();
+
+    if(_currentMillis-timer>150){
+        timer=_currentMillis;
         
         if(toupdate){
             toupdate= !toupdate;
@@ -214,12 +215,12 @@ void Orbion_display::scroll(int8_t inc)
 
 void Orbion_display::jogx(int8_t inc)
 {
-    static uint64_t timer=millis();
+    static uint64_t timer=0;
     _jog(inc, &jogxvalue, &timer);
 }
 void Orbion_display::jogy(int8_t inc)
 {
-    static uint64_t timer=millis();  
+    static uint64_t timer=0;  
     _jog(inc, &jogyvalue, &timer);
        
 }
@@ -227,8 +228,8 @@ void Orbion_display::jogy(int8_t inc)
 void Orbion_display::_jog(int8_t inc, uint8_t * axevalue, uint64_t * timer)
 {
     if(actionmode == COLOR_AM){
-        if(millis()- *timer > 25){
-            *timer = millis(); 
+        if(_currentMillis- *timer > 25){
+            *timer = _currentMillis; 
             inc = (inc + 1) >> 2;
             *axevalue = min(0xFF,max(0,*axevalue - inc)); // = max(16,min(0,jogyvalue+inc));
             toupdate=true;
