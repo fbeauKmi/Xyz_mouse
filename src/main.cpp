@@ -124,6 +124,7 @@ void setup() {
 
  
 void loop() {
+  static bool pantilt_mode = false;
   // update controls
   Joystick.Update();
   knobButton.update();
@@ -160,9 +161,18 @@ void loop() {
         return;
     }
 
+    // get pan/tilt mode against config and knob button
+    if(display.conf.Mode ==2){
+      if (knobButton.clicked()){
+        pantilt_mode = !pantilt_mode;
+      }
+    }else{
+      pantilt_mode = knobButton.isPressed()^display.conf.Mode;
+    }
+
     // report HID state
-    Joystick.action(knobButton.isPressed()^display.conf.Mode, send_command);
-    Encoder.action(knobButton.isPressed()^display.conf.Mode, display.conf.Encoder, send_command);
+    Joystick.action(pantilt_mode, send_command);
+    Encoder.action(pantilt_mode, display.conf.Encoder, send_command);
     send_buttons(b1.isPressed(),b2.isPressed());
 
   }

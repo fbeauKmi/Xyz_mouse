@@ -57,7 +57,7 @@ At first run the firmware store a default config in EEPROM
 Press B3 button to enter menu
 - Settings
     - Knob Direction (L hand / R hand)
-    - PAN / TILT (reverse behavior when knob button is pressed)
+    - **NEW :**   PAN / TILT (3 modes: `Hold 2 PAN` Hold knob button to PAN, `Hold 2 TILT` ... , `Click 2 switch` Press knob button to switch between PAN and TILT )
     - DZ width (change joystick deadzone setting)
     - Sensitivity (Joystick)
     - Color 1 (For led Effects)

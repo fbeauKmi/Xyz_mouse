@@ -46,17 +46,18 @@ const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x11U, 0x2AU} ;
 // Menu action function for each menu items (see Orbion_display::action)
 const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, DZ_WIDTH_AM, SENS_AM, COLOR_AM, COLOR_AM, MOTIONMOD_AM, COLORMODE_AM, CONTRAST_AM, TIMEOUT_AM};
 // Display item pos in array = f(actionMode) from 1st item
-const byte itemPos[] PROGMEM = {1,255,3,255,255,5,8,255,255};
+const byte itemPos[] PROGMEM = {1,255,4,255,255,6,9,255,255};
 // EE_address
 // EEPROM address for each settings (first one is a control byte for version change)
 const byte EE_address[] PROGMEM = {2,11,39,6,8,46,41,54,57,13,4};
 // first byte : pos of first item  in PROGMEM array
 // other : length of array
-const byte arAction[] PROGMEM = {0x12, 0x01, 0x13, 0x01, 0x04, 0xFFU, 0x2, 0x3, 0x3C, 0x04} ;
+const byte arAction[] PROGMEM = {0x12, 0x02, 0x13, 0x01, 0x04, 0xFFU, 0x2, 0x3, 0x3C, 0x04} ;
 
 
-const char jm0[] PROGMEM = "Normal";
-const char jm1[] PROGMEM = "Inverted";
+const char jm0[] PROGMEM = "Hold 2 PAN";
+const char jm1[] PROGMEM = "Hold 2 Orbit";
+const char jm2[] PROGMEM = "Click 2 invert";
 
 const char normal[] PROGMEM = "L Hand";
 const char reversed[] PROGMEM = "R Hand";
@@ -82,7 +83,7 @@ const char *const datas[] PROGMEM = {(const char *) arMenu,
                                         menu00,
                                         menu10,
                                         menu110,menu111,menu112,menu113,menu43,menu44,menu41,menu42,menu46,menu45,
-                                        jm0, jm1, 
+                                        jm0, jm1, jm2,
                                         normal,reversed,
                                         mmode0,mmode1,mmode2,
                                         cmode3,cmode0,cmode1,cmode2
