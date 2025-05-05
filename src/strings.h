@@ -8,7 +8,7 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "Xyz Mouse v0.3.2"
+#define FIRMWARE_NAME "Xyz Mouse v0.3.3"
 
 #define PANTILT_AM    1
 #define DZ_WIDTH_AM   2
@@ -27,7 +27,7 @@ const char menu00[] PROGMEM = "_";
 const char menu10[] PROGMEM = "SETTINGS";
 
 const char menu110[] PROGMEM = "Knob dir";
-const char menu111[] PROGMEM = "PAN / TILT";
+const char menu111[] PROGMEM = "Pan/Rot";
 const char menu112[] PROGMEM = "DZ width";
 const char menu113[] PROGMEM = "Sensitivity";
 
@@ -55,12 +55,12 @@ const byte EE_address[] PROGMEM = {2,11,39,6,8,46,41,54,57,13,4};
 const byte arAction[] PROGMEM = {0x12, 0x02, 0x13, 0x01, 0x04, 0xFFU, 0x2, 0x3, 0x3C, 0x04} ;
 
 
-const char jm0[] PROGMEM = "Hold 2 PAN";
-const char jm1[] PROGMEM = "Hold 2 Orbit";
-const char jm2[] PROGMEM = "Click 2 invert";
+const char jm0[] PROGMEM = "Hold to Pan";
+const char jm1[] PROGMEM = "Hold to rot";
+const char jm2[] PROGMEM = "Click to invert";
 
-const char normal[] PROGMEM = "L Hand";
-const char reversed[] PROGMEM = "R Hand";
+const char normal[] PROGMEM = "Left Hand";
+const char reversed[] PROGMEM = "Right Hand";
 
 const char mmode0[] PROGMEM = "Fixed";
 const char mmode1[] PROGMEM = "Running";

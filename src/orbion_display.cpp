@@ -72,6 +72,8 @@ void Orbion_display::update()
                 drawBitmap(44,6,logo,logo_BMPWIDTH,logo_BMPHEIGHT,SH110X_WHITE);
                 setCursor(12,45);
                 print_center(FIRMWARE_NAME);
+                setCursor(8,5);
+                print(pantilt_mode ? "Pan" : "Rot");
             }
             display();
         }
@@ -83,6 +85,16 @@ void Orbion_display::refresh(){
     toupdate = true;
     return;
 }
+
+/// @brief Allow display to be refresh() with a mode
+void Orbion_display::refresh(bool mode){
+    if( mode != pantilt_mode ) {
+        pantilt_mode = mode;
+        toupdate = true;
+    }
+    return;
+}
+
 
 /// @brief Clear display and update
 void Orbion_display::clear(){
