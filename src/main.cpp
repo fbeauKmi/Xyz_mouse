@@ -169,7 +169,8 @@ void loop() {
     }else{
       pantilt_mode = knobButton.isPressed()^display.conf.Mode;
     }
-
+    display.refresh(pantilt_mode);
+    
     // report HID state
     Joystick.action(pantilt_mode, send_command);
     Encoder.action(pantilt_mode, display.conf.Encoder, send_command);

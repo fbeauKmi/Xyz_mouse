@@ -42,9 +42,9 @@ At first run the firmware store a default config in EEPROM
 | Mode   | actuators  |  function   | Notes |
 |--------|----------|-------------| ---|
 | Normal  | B1/B2 | Button Left / Button right |
-|   | Joystick or rot knob | Tilt / Orbit || 
+|   | Joystick or rot knob | Panning / Rotation || 
 |   | B3  | Enter settings |
-|   | B_Knob + Joystick or rot Knob | Pan / Zoom | 
+|   | B_Knob + Joystick or rot Knob | Panning / Rotation | 
 | Settings | B_Knob | Select |
 |   | B3 | Return/Cancel |
 |   | rot_Knob | scroll |
@@ -57,7 +57,7 @@ At first run the firmware store a default config in EEPROM
 Press B3 button to enter menu
 - Settings
     - Knob Direction (L hand / R hand)
-    - **NEW :**   PAN / TILT (3 modes: `Hold 2 PAN` Hold knob button to PAN, `Hold 2 TILT` ... , `Click 2 switch` Press knob button to switch between PAN and TILT )
+    - **NEW :**   Pan / Rot (3 modes: `Hold to Pan` Hold knob button to PAN, `Hold to Rot` ... , `Click to invert` Press knob button to switch between Pan and Rot )
     - DZ width (change joystick deadzone setting)
     - Sensitivity (Joystick)
     - Color 1 (For led Effects)

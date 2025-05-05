@@ -45,7 +45,9 @@ class Orbion_display : public Adafruit_SH1106G
             uint8_t actionmode=0;
             uint8_t jogxvalue=0;
             uint8_t jogyvalue =0;
-            uint8_t actionvalue=0;        
+            uint8_t actionvalue=0;   
+            
+            bool pantilt_mode=false;
 
         public:
             Orbion_display();
@@ -56,6 +58,7 @@ class Orbion_display : public Adafruit_SH1106G
             void init();
             void update();
             void refresh();
+            void refresh(bool mode);
             void clear();
 
 
