@@ -56,15 +56,16 @@ At first run the firmware store a default config in EEPROM
 
 Press B3 button to enter menu
 - Settings
-    - Knob Direction (L hand / R hand)
-    - **NEW :**   Pan / Rot (3 modes: `Hold to Pan` Hold knob button to PAN, `Hold to Rot` ... , `Click to invert` Press knob button to switch between Pan and Rot )
-    - DZ width (change joystick deadzone setting)
-    - Sensitivity (Joystick)
-    - Color 1 (For led Effects)
-    - Color 2
-    - Color mode (Color 1 , gradient(color 1, color 2), Rainbow) 
-    - Motion mode (fixed, )
-    - Screensave timeout
+    - Knob Direction (L hand / R hand) _default: Left Hand_
+    - **NEW :**   Pan / Rot (3 modes: `Hold to Pan` Hold knob button to PAN, `Hold to Rot` ... , `Click to invert` Press knob button to switch between Pan and Rot ) _default: click to invert_
+    - DZ width (change joystick deadzone setting) _default: 5_
+    - Sensitivity (Joystick) _default: 5_
+    - Color 1 (For led Effects) _default : HSV(46,127,127)_
+    - Color 2 _default : HSV(127,127,127)_
+    - Color mode (Color 1 , Mixed = gradient(color 1, color 2), Rainbow) _default : Mixed_
+    - Motion mode (running, chase, fixed) _default: chase_
+    - OLED contrast _default: 1_
+    - Screensave timeout _ default: 30s"
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
 
@@ -76,6 +77,7 @@ _**I cannot access the Settings menu pressing B3:**_
 _**Black screen at startup, Not recognize as SpaceMouse**_
 
   Uninstall/reinstall 3Dconnexion drivers. Restart you computer.
+  or flash the firmware again.
 
 ## Any questions
 
