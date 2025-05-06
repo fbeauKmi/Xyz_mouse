@@ -56,6 +56,7 @@ At first run the firmware store a default config in EEPROM
 
 Press B3 button to enter menu
 - Settings
+- 
     - Knob Direction (L hand / R hand) _default: Left Hand_
     - **NEW :**   Pan / Rot (3 modes: `Hold to Pan` Hold knob button to PAN, `Hold to Rot` ... , `Click to invert` Press knob button to switch between Pan and Rot ) _default: click to invert_
     - DZ width (change joystick deadzone setting) _default: 5_
@@ -66,6 +67,7 @@ Press B3 button to enter menu
     - Motion mode (running, chase, fixed) _default: chase_
     - OLED contrast _default: 1_
     - Screensave timeout _ default: 30s"
+
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
 
