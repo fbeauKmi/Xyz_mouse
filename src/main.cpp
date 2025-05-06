@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////
-//////////  M-Xyz  V0.3.2  ////////////////////////////
+//////////  M-Xyz  V0.3.4  ////////////////////////////
 //////////  an Alternate firmware for Orbion //////////
 //////////  by @fboc#1751 /////////////////////////////
 //////////  Licence GNU GPL V3.0  /////////////////////
@@ -21,11 +21,16 @@
 //     In settings Menu, B3 = Back, K Button = Validate
 //  Settings:
 //    Knob Dir : Left hand / Right Hand
-//    TILT/PAN  : behavior 
+//    rot/Pan  : knob button behavior
+//    DZ Width : Joystick Deadzone
+//    Sensitivity : Joystick Sensitivity
 //    Color1  :  First Led Color
 //    Color2  :   "
 //    Motion_mode : Leds Motion mode
-//    color_mode
+//    color_mode : Leds Color mode
+//    Contrast : OLED Contrast
+//    Timeout  : OLED Timeout
+//    Reset config : Reset to default config
 
 
 #include <Arduino.h>

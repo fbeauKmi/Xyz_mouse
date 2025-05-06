@@ -12,6 +12,8 @@ Orbion_display::Orbion_display():Adafruit_SH1106G(128, 64, &Wire, 4)
     strcpy_P(itemPos, (char*)pgm_read_word(&(datas[2])));
     strcpy_P(ee_address, (char*)pgm_read_word(&(datas[3])));
     strcpy_P(action_strings, (char*)pgm_read_word(&(datas[4])));
+    memcpy_P(defaultVal,pgm_read_word(&datas[5]),12);
+    ee_reset = defaultVal[0];
 };     
 
 void Orbion_display::init()
@@ -160,11 +162,11 @@ void Orbion_display::action()
             case KNOBDIR_AM:
             case MOTIONMOD_AM:
             case COLORMODE_AM:
+            case RESET_AM:
                 pgmString(action_strings[0]+str_pos+actionvalue);
                 fillrect_center(buf);
                 setTextColor(SH110X_BLACK);
                 print_center(buf);
-                //print(actionvalue);
             break;
             case COLOR_AM:
                 {
@@ -260,18 +262,23 @@ void Orbion_display::enter()
     select();
   }else{
     uint8_t id = startpos + current_item - list[0] - list[1] + 1;
-    if(actionmode){            // Update EEPROM
-    EE_write(id , actionvalue);
-    if(actionmode==COLOR_AM){
-        EE_write(id , jogxvalue, 1);
-        EE_write(id , jogyvalue, 2);
-    }
-    loadConfig();
-    back();
+    if(actionmode){ 
+        if(actionmode==RESET_AM){
+            ee_reset = (actionvalue==0 ? 0x01: 0xFF); // reset control byte to 0xFF
+        }  else {        // Update EEPROM
+            EE_write(id , actionvalue);
+            if(actionmode==COLOR_AM){
+                EE_write(id , jogxvalue, 1);
+                EE_write(id , jogyvalue, 2);
+            }
+        }
+        loadConfig();
+        back();
     } else {                         // Read EEPROM
     actionmode = actions[id-2] & 0x0F;
     actionvalue =  EE_read(id) ;
     actionvalue = min(actionvalue,(uint8_t) action_strings[actionmode]);
+    actionvalue =  (actionmode==RESET_AM?0:actionvalue);
     str_pos = itemPos[actionmode-1] - 1 ;
     
     if(actionmode == COLOR_AM){
@@ -368,10 +375,9 @@ uint8_t Orbion_display::EE_read(uint8_t id, uint8_t offset)
 }
 
 //// Load config
-
 void Orbion_display::loadConfig()
 {
-    if(EE_read(1) == 1){ /// Check if EEPROM stores the config and read it
+    if(EE_read(1) == ee_reset){ /// Check if EEPROM stores the config and read it
         conf.Mode = EE_read(3);
         conf.Encoder = EE_read(2) ? -1 : 1;
 
@@ -386,14 +392,16 @@ void Orbion_display::loadConfig()
         conf.timeout = EE_read(11) * 1000;
         
      }else{
+        // EEPROM is empty or version changed
+        // first byte is a control byte for version change
+        // 0x01 = 1st version, 0x02 = 2nd version, etc..
+        // 0xFF = no settings stored
 
-// first run Write default settings on EEPROM
-        EE_write(1,1);
-        byte var[10];
-        memcpy_P(var,pgm_read_word(&datas[5]),11);
-        for(uint8_t i=0; i<10; i++)
+        ee_reset = defaultVal[0]; // reset control byte
+    
+        for(uint8_t i=0; i<11; i++)
         {
-        EE_write(i+1,var[i]);
+        EE_write(i+1,defaultVal[i]);
         } 
         loadConfig();
      }

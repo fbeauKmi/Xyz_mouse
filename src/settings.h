@@ -5,9 +5,9 @@
 
 #define LED               15         // Neopixel
 #define NUMPIXELS         7          // Number of led on the strip (default 7)
-#define KNOB_DIR          -1         // 1 or -1 depends the way your Leds "rotate"
-#define DT                5          // DT Encoder                      
-#define CLK               4          // CLK Encoder        
+#define KNOB_DIR          1         // 1 or -1 depends the way your Leds "rotate"
+#define DT                4          // DT Encoder                      
+#define CLK               5          // CLK Encoder        
 #define AxisY             A2         // VRY Joystick
 #define AxisX             A3         // VRX Joystick
 #define joyButt           A1         // SW Joystick
