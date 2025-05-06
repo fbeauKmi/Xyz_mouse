@@ -36,6 +36,7 @@ class Orbion_display : public Adafruit_SH1106G
             char itemPos[20];
             char ee_address[20];
             char action_strings[20];
+            byte defaultVal[12];
             
             uint8_t str_pos=0;
             
@@ -44,10 +45,12 @@ class Orbion_display : public Adafruit_SH1106G
             uint8_t startm=0;
             uint8_t actionmode=0;
             uint8_t jogxvalue=0;
-            uint8_t jogyvalue =0;
+            uint8_t jogyvalue=0;
             uint8_t actionvalue=0;   
             
             bool pantilt_mode=false;
+
+            uint8_t ee_reset=0x01;
 
         public:
             Orbion_display();

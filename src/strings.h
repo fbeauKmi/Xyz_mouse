@@ -1,6 +1,6 @@
 /// Strings.h
 // strings and menu structure 
-// GNU GPL v3.0 july 2023
+// GNU GPL v3.0 2023-2025
 
 #ifndef STRINGS_H
 #define STRINGS_H
@@ -8,7 +8,7 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "Xyz Mouse v0.3.3"
+#define FIRMWARE_NAME "Xyz Mouse v0.3.4"
 
 #define PANTILT_AM    1
 #define DZ_WIDTH_AM   2
@@ -19,6 +19,7 @@
 #define COLORMODE_AM  7
 #define TIMEOUT_AM    8
 #define CONTRAST_AM   9
+#define RESET_AM      10
 
 // _____________________ Menu strings _____________________ //
 
@@ -37,22 +38,20 @@ const char menu41[] PROGMEM = "Led Motion";
 const char menu42[] PROGMEM = "Led Colors";
 const char menu46[] PROGMEM = "OLED Contrast";
 const char menu45[] PROGMEM = "Timeout (sec)";
+const char menu47[] PROGMEM = "Reset config";
 
 // arMenu 
 // first byte : pos of menu00 in PROGMEM array
 // other : offpos of menu in array + nb of items
-const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x11U, 0x2AU} ;
+const byte arMenu[] PROGMEM = {0x06, 0x01U, 0x11U, 0x2BU} ;
 // actions
 // Menu action function for each menu items (see Orbion_display::action)
-const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, DZ_WIDTH_AM, SENS_AM, COLOR_AM, COLOR_AM, MOTIONMOD_AM, COLORMODE_AM, CONTRAST_AM, TIMEOUT_AM};
+const byte actions[] PROGMEM = {KNOBDIR_AM, PANTILT_AM, DZ_WIDTH_AM, SENS_AM, COLOR_AM, COLOR_AM, MOTIONMOD_AM, COLORMODE_AM, CONTRAST_AM, TIMEOUT_AM, RESET_AM} ;
 // Display item pos in array = f(actionMode) from 1st item
-const byte itemPos[] PROGMEM = {1,255,4,255,255,6,9,255,255};
-// EE_address
-// EEPROM address for each settings (first one is a control byte for version change)
-const byte EE_address[] PROGMEM = {2,11,39,6,8,46,41,54,57,13,4};
+const byte itemPos[] PROGMEM = {1,255,4,255,255,6,9,255,255,13};
 // first byte : pos of first item  in PROGMEM array
 // other : length of array
-const byte arAction[] PROGMEM = {0x12, 0x02, 0x13, 0x01, 0x04, 0xFFU, 0x2, 0x3, 0x3C, 0x04} ;
+const byte arAction[] PROGMEM = {0x13, 0x02, 0x13, 0x01, 0x04, 0xFFU, 0x2, 0x3, 0x3C, 0x04, 0x01} ;
 
 
 const char jm0[] PROGMEM = "Hold to Pan";
@@ -71,7 +70,27 @@ const char cmode0[] PROGMEM = "Color 1";
 const char cmode1[] PROGMEM = "Mixed";
 const char cmode2[] PROGMEM = "Rainbow";
 
-const byte defaultVal[] PROGMEM = {0x0,0x0,0x2D,0x7E,0x2,0x2,0x1E};
+const char reset1[] PROGMEM = "No";
+const char reset2[] PROGMEM = "Yes";
+
+// ________________ EEPROM settings ______________________ //
+// EEPROM address for each settings (first one is a control byte for version change)
+const byte EE_address[] PROGMEM = {2,11,39,6,8,46,41,54,57,13,4};
+
+// ________________ Default EE values ______________________ //
+// - ctrl byte: 0x01 ,
+// - knobdir: 0x0 = Left Hand , 0x1 = Right Hand ,
+// - Pan/Rot: 0x1 = Hold to Pan , 0x2 = Hold to Rot , 0x2 = Click to invert ,
+// - DZ width: 0x4 ,
+// - Sensitivity: 0x13,
+// - Color 1: 0x2D ,
+// - Color 2: 0x7E ,
+// - Led Motion: 0x0 = Fixed , 0x1 = Running , 0x2 = Chase ,
+// - Led Colors: 0x0 = Off , 0x1 = Color 1 , 0x2 = Mixed , 0x3 = Rainbow ,
+// - OLED Contrast: 0x0 ,
+// - Timeout: 0x1E = 30s.
+
+const byte defaultVal[] PROGMEM = {0x01,0x0,0x2,0x4,0x13,0x2D,0x7E,0x2,0x2,0x0,0x1D};
 
 
 const char *const datas[] PROGMEM = {(const char *) arMenu,
@@ -82,11 +101,13 @@ const char *const datas[] PROGMEM = {(const char *) arMenu,
                                         (const char *) defaultVal,
                                         menu00,
                                         menu10,
-                                        menu110,menu111,menu112,menu113,menu43,menu44,menu41,menu42,menu46,menu45,
+                                        menu110,menu111,menu112,menu113,menu43,
+                                        menu44,menu41,menu42,menu46,menu45,menu47,
                                         jm0, jm1, jm2,
                                         normal,reversed,
                                         mmode0,mmode1,mmode2,
-                                        cmode3,cmode0,cmode1,cmode2
+                                        cmode3,cmode0,cmode1,cmode2,
+                                        reset1,reset2
                                         };
 
 
