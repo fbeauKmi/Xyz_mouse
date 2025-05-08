@@ -330,7 +330,7 @@ void Orbion_display::fillrect_center(const String &t)
     fillRect(x1,getCursorY()-2,t.length()*6+10,11,SH110X_WHITE);
 }
 
-/// @brief  read stting from PROGMEM store it to buffer
+/// @brief  read settings from PROGMEM store it to buffer
 /// @param id 
 void Orbion_display::pgmString(uint8_t id){
     strcpy_P(buf,(char *)pgm_read_word(&datas[id]));
@@ -401,8 +401,13 @@ void Orbion_display::loadConfig()
     
         for(uint8_t i=0; i<11; i++)
         {
-        EE_write(i+1,defaultVal[i]);
-        } 
+            EE_write(i+1, defaultVal[i]);
+        }
+        EE_write(6, 0x7D, 1);
+        EE_write(6, 0x7D, 2);
+        EE_write(7, 0x7D, 1);
+        EE_write(7, 0x7D, 2);
+        
         loadConfig();
      }
     

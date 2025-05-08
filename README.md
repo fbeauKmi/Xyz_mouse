@@ -2,8 +2,7 @@
 ![LOGO Xyz Mouse](./logo.png)
 # Xyz Mouse firmware for Orbion
 
-First attempt to build an alternate firmware for Orbion. 
-It is now compatible with 3Dconnexion drivers and mimic Spacemouse compact.
+An alternate firmware for [Orbion spacemouse](https://github.com/FaqT0tum/Orbion_3D_Space_Mouse) compatible with 3Dconnexion drivers that mimic Spacemouse compact.
 
 It gives to your Orbion 6Dof (see usage). The current firmware is designed for
 Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
@@ -34,6 +33,7 @@ It can be tricky to get the firmware to be recognized by the system. Follow this
 
 > The default display build is configured for sh110x, if you want change for SSD1306 open platformio.ini and change ``default_envs`` value to  ``ssd1306``
 
+![Main display](./images/p1.png)
 
 ## Usage :
 At first run the firmware store a default config in EEPROM
@@ -50,23 +50,40 @@ At first run the firmware store a default config in EEPROM
 |   | rot_Knob | scroll |
 | Color settings  | rot_Knob | change Hue | 16M color settings
 |   | Joystick X | change saturation |
-|   | Joystick Y | change brigthness | Britthness of Color1 is used in Rainbow mode
+|   | Joystick Y | change brigthness | Brigthness of Color1 is used in Rainbow mode
 
 ##  Settings Menu
 
 Press B3 button to enter menu
-- Settings
-- 
-    - Knob Direction (L hand / R hand) _default: Left Hand_
-    - **NEW :**   Pan / Rot (3 modes: `Hold to Pan` Hold knob button to PAN, `Hold to Rot` ... , `Click to invert` Press knob button to switch between Pan and Rot ) _default: click to invert_
-    - DZ width (change joystick deadzone setting) _default: 5_
-    - Sensitivity (Joystick) _default: 5_
-    - Color 1 (For led Effects) _default : HSV(46,127,127)_
-    - Color 2 _default : HSV(127,127,127)_
-    - Color mode (Color 1 , Mixed = gradient(color 1, color 2), Rainbow) _default : Mixed_
-    - Motion mode (running, chase, fixed) _default: chase_
-    - OLED contrast _default: 1_
-    - Screensave timeout _ default: 30s"
+
+![Settings](./images/p2.png)
+
+Use encoder to navigate, Knob button to enter item or validate, B3 button to cancel.
+
+![Menu item](./images/p3.png)
+
+
+### Settings
+
+  - **Knob Dir**: _[Left hand, Right hand]_ (default: Left Hand)  
+    Change the direction of the encoder.
+  - **Pan / Rot**: _[Hold to Pan, Hold to Rot, Click to invert]_ (default: Click to invert)  
+    Three modes: `Hold to Pan` (hold knob button to pan), `Hold to Rot` (hold knob button to rotate), `Click to invert` (press knob button to switch between pan and rotate).
+  - **DZ Width**: _[1 - 20]_ (default: 5). \
+    Joystick deadzone setting
+  - **Sensitivity**: _[1 - 5]_ (default: 5).\
+    Joystick sensitivity
+  - **Color 1**: _For LED effects_ (default: HSV(46,127,127)).
+  - **Color 2**: _Secondary color for LED effects_ (default: HSV(127,127,127)).
+  - **Led Motion**: _[Running, Chase, Fixed]_ (default: Chase).
+
+  - **Led Colors**: _[Color 1, Mixed, Rainbow]_ (default: Mixed)  
+    Mixed creates a gradient between Color 1 and Color 2.
+  - **OLED Contrast**: _[1 - 5]_ (default: 1). \
+    Screen contrast setting
+  - **Timeout (sec)**: _[1 - 61]_ (default: 30s). \
+    Time before screensaver activates
+  - **Reset Config**: Reset all settings to default.
 
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
