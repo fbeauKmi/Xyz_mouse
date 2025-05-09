@@ -145,6 +145,7 @@ void Orbion_display::select()
             setTextColor(_textcolor);
             print_center(buf,0,width());
         }
+        scrollBar(width()-12,23, 33, false, nbitem , current_item);
 
 }
 
@@ -155,7 +156,7 @@ void Orbion_display::action()
         
         pgmString(startpos+current_item);
         print_center(buf);
-        setCursor( 60 , 40);
+        setCursor( 60 , 38);
 
         switch(actionmode){
             case PANTILT_AM:
@@ -193,7 +194,10 @@ void Orbion_display::action()
                 setTextColor(SH110X_WHITE);
                 print(actionvalue +1);
             break;
-        }   
+        }
+        if(actionmode != COLOR_AM){
+            scrollBar(26,52, width()-52, true, action_strings[actionmode], actionvalue);
+        }
     }
 }
 
@@ -345,6 +349,41 @@ void Orbion_display::pgmUintArray(uint8_t id, uint8_t nbval){
         strcpy_P(cBuf,(char *)pgm_read_word(&datas[id]));
    }
 }
+
+/// @brief  draw a scroll bar on the display
+/// @param x
+/// @param y
+/// @param l  scroll bar length
+/// @param h  horizontal or vertical
+/// @param nb_items  number of items on the scroll bar
+/// @param current_item  current item on the scroll bar
+void Orbion_display::scrollBar(uint8_t x, uint8_t y, uint8_t l, boolean horizontal, uint8_t nb_items, uint8_t current_item)
+{
+    uint8_t w;
+    uint8_t h;
+    uint8_t x3;
+    uint8_t y3;
+
+    
+    uint8_t item_pos = current_item * l / nb_items; // position of the item
+    
+
+    if (horizontal) {
+        w = l;
+        h = 1;
+        x3 = item_pos + x - 1; // start of the item
+        y3 = y - 1; // start of the item
+    } else {
+        w = 1;
+        h = l;
+        x3 = x - 1; // start of the item
+        y3 = item_pos + y - 1; // start of the item
+    }
+    
+    fillRect(x,y,w,h,SH110X_WHITE);
+    fillRect(x3,y3,3,3,SH110X_WHITE);
+}
+
 
 
 //// EEPROM Read/write functions   ////
