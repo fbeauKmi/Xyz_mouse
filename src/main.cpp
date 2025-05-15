@@ -104,7 +104,7 @@ void screensaver(void){
     {
       if(Encoder.getDirectionHalf())
       {
-        leds.knobInc(Encoder.getDirectionHalf() * KNOB_DIR * display.conf.Encoder);
+        leds.knobInc(Encoder.getDirectionHalf() * KNOB_DIR);
       }
       timeoff=_currentMillis;
 
