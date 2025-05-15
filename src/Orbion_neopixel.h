@@ -3,6 +3,7 @@
 #define LEDS_H
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
+#include "timer.h"
 
 
 //// CLASS NEOPIXEL ////
@@ -20,7 +21,6 @@ class Orbion_Neopixel : public Adafruit_NeoPixel {
     private:
     
         uint32_t _lastframe=0;
-        byte _maxPos =0;
         uint32_t _color1 = 0;
         uint32_t _color2 = 0;
         byte _brightness = 0;
@@ -39,7 +39,7 @@ class Orbion_Neopixel : public Adafruit_NeoPixel {
 
         byte _mode = 0;
         byte _color_mode = 0;
-        byte pos = 0;
+        uint8_t pos = 0;
     
         
         void display(uint8_t mode, uint8_t color_mode, uint32_t color1, uint32_t color2);
@@ -47,7 +47,7 @@ class Orbion_Neopixel : public Adafruit_NeoPixel {
         void setConfig(uint8_t mode, uint8_t color_mode, uint32_t color1, uint32_t color2);
         uint32_t getColor();
         uint32_t colorHSV(uint8_t H, uint8_t S, uint8_t V);
-        void knobInc(int8_t inc, int8_t dir);
+        void knobInc(int16_t dir);
 
 // useful math function
 

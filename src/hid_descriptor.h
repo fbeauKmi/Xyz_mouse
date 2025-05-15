@@ -5,6 +5,13 @@
 #ifndef HIDDESCRIPTOR_H
 #define HIDDESCRIPTOR_H
 
+#include <Arduino.h>
+#include "HID.h"
+#include "struct.h"
+#include "timer.h"
+
+#define ZERO_AXES {0,0,0}
+
 static const uint8_t _hidReportDescriptor[] PROGMEM = {
   0x05, 0x01,           //  Usage Page (Generic Desktop)
   0x09, 0x08,           //  0x08: Usage (Multi-Axis)
@@ -50,30 +57,24 @@ static const uint8_t _hidReportDescriptor[] PROGMEM = {
   0xC0
 };
  
-/// @brief send Motion Hid report
-/// @param rx Rotation   X
-/// @param ry            Y
-/// @param rz            Z
-/// @param x translation X
-/// @param y             Y
-/// @param z             Z
-void send_command(int16_t rx, int16_t ry, int16_t rz, int16_t x, int16_t y, int16_t z) {
-  uint8_t trans[6] = {(uint8_t)(x & 0xFF), (uint8_t)(x >> 8), (uint8_t)(y & 0xFF), (uint8_t)(y >> 8), (uint8_t)(z & 0xFF), (uint8_t)(z >> 8)};
-  HID().SendReport(1, trans, 6);
-  uint8_t rot[6] = {(uint8_t)(rx & 0xFF), (uint8_t)(rx >> 8), (uint8_t)(ry & 0xFF), (uint8_t)(ry >> 8), (uint8_t)(rz & 0xFF), (uint8_t)(rz >> 8)};
-  HID().SendReport(2, rot, 6);
-}
+/// @brief Extend HID specifically to 3D mouse
+class mouseHID
+  {
+  public:
+    ~mouseHID() { };
+    mouseHID();
+    int begin(void);
+    void send_command(uint8_t mode, Axes axes);
+    void send_buttons(uint8_t L_state, uint8_t R_state);
+  private:
+    void send_report();
+    bool splitvalues(uint8_t* splitAxes, Axes axes);
+    uint32_t _last_sent; 
+    Axes rot;
+    Axes trans;
+    uint8_t button_state;
+  };
 
-/// @brief send Buttons Hid report
-/// @param L_state 
-/// @param R_state 
-void send_buttons(uint8_t L_state, uint8_t R_state){
-  static uint8_t laststate = 0;
-  uint8_t  buttons_state = L_state << 0 | R_state << 1;
-  if(buttons_state !=laststate){
-       HID().SendReport(3,&buttons_state,1);
-       laststate = buttons_state;
-  }
-}
+mouseHID& XYZmouse();
 
 #endif

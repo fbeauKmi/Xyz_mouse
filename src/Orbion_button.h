@@ -3,6 +3,7 @@
 #define BUTTONS_H
 
 #include <Arduino.h>
+#include "timer.h"
 
 #define DEBOUNCE_DELAY   15
 
@@ -23,12 +24,10 @@ class Orbion_button
     private:
       int _pin;                       // button pin
       uint32_t lastCount;             // 
-      uint32_t lastDebounceTime;
       bool ispressed = false;
       bool isreset = true;
       uint8_t lastState;
       bool _triggered; 
-      uint32_t _currentMillis; 
 
     };
 

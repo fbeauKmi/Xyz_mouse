@@ -32,10 +32,8 @@ Orbion_joystick::Orbion_joystick(
     gpio_pin_z = 0;
     zero_x = 0;
     zero_y = 0;
-    zero_z = 0;
     value_int_x = 0;
     value_int_y = 0;
-    value_int_z = 0;
     deadzone = 5;
     sensitivity = 1;
     
@@ -109,10 +107,20 @@ void Orbion_joystick::Update()
     value_int_x = analogRead(gpio_pin_x);
 #ifdef AxesZ
     value_int_z = analogRead(gpio_pin_z);
-#endif
-
+    
+    static timer;
+    int16_t z;
+    if(isTimeout(&timer,25)){
+       _direction = (z = z()) == 0 ? z : (z < 0 ? -1 : 1);
+    }
     // triggered state
     _triggered = abs((value_int_x - zero_x) | (value_int_y - zero_y) | (value_int_z - zero_z)) > deadzone ;
+#else
+    // triggered state
+    _triggered = abs((value_int_x - zero_x) | (value_int_y - zero_y)) > deadzone ;
+#endif
+
+    
 }
 
 
@@ -143,14 +151,22 @@ int16_t Orbion_joystick::y()
 #ifdef AxesZ
 int16_t Orbion_joystick::z()
 {
-    if(gpio_pin_z){
-        int16_t value = (value_int_z - zero_z);
-        return (axev(value) << sensitivity) >> 2;
-    }
-    return 0;
+    int16_t value = (value_int_z - zero_z);
+    return (axev(value) << sensitivity) >> 2;
 }
 
+int8_t Orbion_joystick::getDirectionHalf()
+{
+    return _direction;
+}
+int8_t Orbion_joystick::getDirection()
+{
+    
+    return _direction;
+}
 #endif
+
+
 
 int16_t Orbion_joystick::axev(int16_t value)
 {
@@ -169,16 +185,11 @@ bool Orbion_joystick::isTriggered(){
     return _triggered;
 }
 
-void Orbion_joystick::action(bool buttonPressed, void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t) )
+Axes Orbion_joystick::returnValue()
 {
-        static uint32_t _T=0;
-        uint32_t currentMillis = millis();
-        if (currentMillis - _T > 10 ) {
-            _T = currentMillis;
-            if (buttonPressed){
-                (*send_cmd)(0,0,0,-1*y(),x(),0);
-            }else{
-                (*send_cmd)(x(),y(),0,0,0,0);
-            }
-        }
+#ifdef AxesZ
+    return {x(), y(), z()};
+#else
+    return {x(), y(), 0};
+#endif
 }

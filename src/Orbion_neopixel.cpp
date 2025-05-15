@@ -6,7 +6,6 @@
 
 Orbion_Neopixel::Orbion_Neopixel(uint16_t n, uint16_t pin) : Adafruit_NeoPixel(n, pin, NEO_GRB + NEO_KHZ800)
 {
-  _maxPos = 0xFF - (0xFF % n);
   _brightness = n > 6 ? 1500U / n : 255U;
   this->n = n;
 }
@@ -33,15 +32,12 @@ void Orbion_Neopixel::display(uint8_t mode, uint8_t color_mode, uint32_t color1,
 // color_mode : 0 = off, 1= color1, 2= mix(color1, color2), 3=rainbow
 void Orbion_Neopixel::display(void){    
     uint32_t color = _color1;
-    uint32_t currentMillis = millis();
     
-    knobInc(0,1);
-    if(currentMillis-_lastframe > 150)
+    if(isTimeout(&_lastframe,150))
       {
-      _lastframe=currentMillis;
       
       clear();
-      uint8_t first = (_mode ? (pos % n) : 0);
+      uint8_t first = (_mode ? pos : 0);
       uint8_t end = (_mode ? first + ( _mode == MODE_ONE ? 1 : n / 2) : n);
       
       if(_color_mode == COLOR_MIXED){
@@ -102,9 +98,8 @@ uint32_t Orbion_Neopixel::colorHSV(uint8_t H, uint8_t S, uint8_t V)
     return ColorHSV( (H << 8) | H, S, ((uint16_t) V * _brightness) >> 8);
 }
 
-
-void Orbion_Neopixel::knobInc(int8_t inc, int8_t dir){
-    pos = pos == _maxPos ? 0 : ( pos > _maxPos - 1 ? _maxPos - 1 : pos - dir * inc);
+void Orbion_Neopixel::knobInc(int16_t  dir){
+  pos = (pos + n + dir ) % n;   
 }
 
 uint8_t Orbion_Neopixel::LinearInterpolate2Channels(uint8_t channel1, uint8_t channel2, uint8_t frac2){

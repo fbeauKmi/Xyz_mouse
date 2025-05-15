@@ -1,7 +1,8 @@
-// struct.h structure for Orbion_display.h
+// struct.h structure for Orbion
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
+#ifndef STRUCT_H
+#define STRUCT_H
 
 typedef struct
 {
@@ -18,6 +19,13 @@ typedef struct
   
 } MenuConfig;
 
+typedef struct {
+    int16_t x, y, z;
+} Axes;
 
+// Add operator+ after the type is defined
+inline Axes operator+(const Axes& a, const Axes& b) {
+    return {a.x + b.x, a.y + b.y, a.z + b.z};
+}
 
 #endif

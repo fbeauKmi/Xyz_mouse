@@ -53,67 +53,50 @@ void RotaryEncoder::update(void)
 {
   bool sig1 = digitalRead(_pin1);
   bool sig2 = digitalRead(_pin2);
-  static unsigned long hS=0;
-  static uint8_t _oldState = sig1 | (sig2 << 1);
   uint8_t thisState = sig1 | (sig2 << 1);
+  static uint8_t _oldState = thisState;
+  
   
   _direction = 0;
   _direction_half = 0;
-  _currentMillis = millis();
-  if (_currentMillis-hS>5){
-    hS=_currentMillis;
+  // Check if the state has changed
+  if (_oldState!=thisState){
     
-    if (_oldState!=thisState){
-      
-      if(_oldState == 3 ){
-        _direction = (sig1 ? 1 : -1);
-        _direction_half = _direction;
-      }
-      if(_oldState == 0){
-        _direction = (sig2 ? 1 : -1);
-      }
-      
-      _oldState = thisState;
+    if(_oldState == 3 ){
+      _direction = (sig1 ? 1 : -1);
+      _direction_half = _direction;
     }
-  } 
+    if(_oldState == 0){
+      _direction = (sig2 ? 1 : -1);
+    }
+    
+    _oldState = thisState;
+  }
+
+
 
 } // update()
 
-
-// Send command to the interface trying to get motion as smooth as possible
-// S
-void RotaryEncoder::action(bool buttonPressed, int8_t dir, void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t))
+// return value for HID
+Axes RotaryEncoder::returnValue()
 {
   static int8_t lastDirection; 
-  static uint8_t buttonState;
-  static unsigned long hS;
-  static unsigned long hidDebounce;
+  static uint32_t hS;
   
   // Compute increment value (0 - 500)
   // add 32 each time Encoder is triggered
   // subtract 2 every 6ms
+ 
   if(getDirection()){
-    _increment = min(500,_increment+32);
+    _increment = min(510,_increment + 32);
     lastDirection = getDirection();
   } else {
-    if(_currentMillis - hS > 6){
-      hS = _currentMillis;
-      _increment = max(0,_increment-2);
+    if(isTimeout(&hS, 6)){
+      _increment = max(0,_increment - 2);
     }
   }
+
   
-  // report HID every 10 ms if needed
-  if (_currentMillis - hidDebounce > 10 && _increment){
-    hidDebounce=_currentMillis;
-      if(buttonState != buttonPressed){
-        _increment=0;
-      }
-      
-      if (buttonPressed){
-          (*send_cmd)(0,0,0,0,0,_increment * lastDirection * dir);
-      }else{
-          (*send_cmd)(0,0,_increment * lastDirection * dir,0,0,0);
-      }
-      buttonState = buttonPressed;
-  }
-} // action()
+  return {0,0,_increment*lastDirection};
+  
+} // returnValue()
