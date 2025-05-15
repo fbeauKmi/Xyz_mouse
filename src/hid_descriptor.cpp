@@ -73,7 +73,7 @@ void mouseHID::send_report() {
         case 1:
         // Rotation
         case 2:
-            if (report_zero < 3)
+            if (report_zero < 4)
             {
                 HID().SendReport(report_id, &val, 6);
             }
