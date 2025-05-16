@@ -5,6 +5,6 @@
 
 #include <Arduino.h>
 
-bool isTimeout(uint32_t* lastMillis, uint32_t delay);
-bool isTimeout(uint32_t* lastMillis, uint32_t* _currentMillis, uint32_t delay, bool reset);
+bool isTimeout(uint32_t *lastMillis, uint32_t delay);
+bool isTimeout(uint32_t *lastMillis, uint32_t *_currentMillis, uint32_t delay, bool reset);
 #endif

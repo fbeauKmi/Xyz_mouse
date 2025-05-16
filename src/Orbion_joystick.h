@@ -45,8 +45,6 @@ class Orbion_joystick {
     void CalibrateZero();
     void SetDeadzone(int16_t deadzone);
     int16_t GetDeadzone();
-    void SetSensitivity(int16_t sensivity);
-    int16_t GetSensitivity();
     
     bool isTriggered();
     Axes returnValue();

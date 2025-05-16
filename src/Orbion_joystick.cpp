@@ -90,16 +90,6 @@ int16_t Orbion_joystick::GetDeadzone()
     return deadzone;
 }
 
-void Orbion_joystick::SetSensitivity(int16_t sens)
-{
-    sensitivity = sens;
-}
-
-int16_t Orbion_joystick::GetSensitivity()
-{
-    return sensitivity;
-}
-
 void Orbion_joystick::Update()
 {
     // read the Orbion_joystick
@@ -139,20 +129,20 @@ void Orbion_joystick::CalibrateZero()
 int16_t Orbion_joystick::x()
 {
     int16_t value = (value_int_x - zero_x);
-    return (axev(value) << sensitivity) >> 2;
+    return axev(value);
 }
 
 int16_t Orbion_joystick::y()
 {
     int16_t value = (value_int_y - zero_y);
-    return (axev(value) << sensitivity) >> 2;
+    return axev(value);
 }
 
 #ifdef AxesZ
 int16_t Orbion_joystick::z()
 {
     int16_t value = (value_int_z - zero_z);
-    return (axev(value) << sensitivity) >> 2;
+    return axev(value);
 }
 
 int8_t Orbion_joystick::getDirectionHalf()
@@ -167,18 +157,9 @@ int8_t Orbion_joystick::getDirection()
 #endif
 
 
-
 int16_t Orbion_joystick::axev(int16_t value)
 {
-    if (value > deadzone) {
-        return value - deadzone;
-    }
-    else if (value < (- deadzone)) {
-        return value + deadzone;
-    }
-    else {
-        return 0;
-    }
+    return ((value > deadzone) ? (value - deadzone) : (value < -deadzone) ? (value + deadzone) : 0) >> 2;
 }
 
 bool Orbion_joystick::isTriggered(){

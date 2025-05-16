@@ -28,4 +28,12 @@ inline Axes operator+(const Axes& a, const Axes& b) {
     return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
 
+inline Axes operator<<(const Axes& a, uint8_t b) {
+    return {a.x << b , a.y << b, a.z << b};
+}
+
+inline Axes operator>>(const Axes& a, uint8_t b) {
+    return {a.x >> b , a.y >> b, a.z >> b};
+}
+
 #endif

@@ -5,30 +5,27 @@
 #include <Arduino.h>
 #include "timer.h"
 
-#define DEBOUNCE_DELAY   15
+#define DEBOUNCE_DELAY 15
 
 class Orbion_button
-    {
-    public:
+{
+public:
+  // Constructor
+  Orbion_button(int pin);
+  ~Orbion_button();
 
-    // Constructor
-      Orbion_button(int pin);
-      ~Orbion_button();
-      
-      
-      void update();                 // Update button state
-      bool isPressed();              // return True if button pressed
-      void reset();                  // reset button state 
-      bool clicked();                // return True once if button pressed
-    
-    private:
-      int _pin;                       // button pin
-      uint32_t lastCount;             // 
-      bool ispressed = false;
-      bool isreset = true;
-      uint8_t lastState;
-      bool _triggered; 
+  void update();    // Update button state
+  bool isPressed(); // return True if button pressed
+  void reset();     // reset button state
+  bool clicked();   // return True once if button pressed
 
-    };
+private:
+  int _pin;           // button pin
+  uint32_t lastCount; //
+  bool ispressed = false;
+  bool isreset = true;
+  uint8_t lastState;
+  bool _triggered;
+};
 
 #endif
