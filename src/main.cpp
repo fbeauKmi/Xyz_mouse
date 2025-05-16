@@ -40,7 +40,9 @@
 #include "RotaryEncoder.h"
 
 #include "Orbion_neopixel.h"
+#ifndef NO_DISPLAY
 #include "orbion_display.h"
+#endif
 #include "timer.h"
 
 /// Load Control Objects
@@ -53,7 +55,10 @@ RotaryEncoder Encoder(DT, CLK);
 
 // Load Display Objects
 Orbion_Neopixel leds(NUMPIXELS, LED);
+
+#ifndef NO_DISPLAY
 Orbion_display display;
+#endif
 
 /// @brief Set Neopixel config from EEprom datas
 void led_config()
@@ -63,7 +68,7 @@ void led_config()
 
 /// @brief Turn Off display and led when no action is done Timeout is done by config
 /// @param
-void screensaver(void)
+void screensaver(int8_t enc_dir)
 {
 
   static uint32_t timeoff = 0;
@@ -100,11 +105,15 @@ void screensaver(void)
       b2.isPressed() ||
       b3.isPressed() ||
       knobButton.isPressed() ||
-      Joystick.isTriggered() || Encoder.getDirection())
+      Joystick.isTriggered()
+#ifndef AxisZ
+      || Encoder.getDirection()
+#endif
+  )
   {
-    if (Encoder.getDirectionHalf())
+    if (enc_dir)
     {
-      leds.knobInc(Encoder.getDirectionHalf() * KNOB_DIR);
+      leds.knobInc(enc_dir * LED_DIR);
     }
     timeoff = _currentMillis;
   }
@@ -118,8 +127,8 @@ void setup()
   XYZmouse().begin();
 
   // init display, leds
-  display.init();
-  display.setleds(&leds); // link leds to display
+  display.init(&leds);
+  //display.setleds(); // link leds to display
 
   // init and calibrate joystick
   Joystick.Init();
@@ -142,7 +151,18 @@ void loop()
   Encoder.update();
   display.update();
 
+// get Axes values
+#ifndef AxisZ
+
+  Axes axes = Joystick.returnValue() + Encoder.returnValue();
+  axes.z = axes.z * display.conf.Encoder;
+
   int8_t enc_dir = Encoder.getDirectionHalf();
+#else
+
+  Axes axes = Joystick.returnValue();
+  int8_t enc_dir = Joystick.getDirectionHalf();
+#endif
 
   if (display.settingMode())
   { ////  Settings mode
@@ -162,8 +182,7 @@ void loop()
       Joystick.SetDeadzone(display.conf.dz);
     }
 
-    display.jogy(Joystick.y());
-    display.jogx(Joystick.x());
+    display.jog(axes);
   }
   else
   {
@@ -177,7 +196,7 @@ void loop()
     // get pan/tilt mode against config and knob button
     if (display.conf.Mode == 2)
     {
-        pantilt_mode ^= knobButton.clicked();
+      pantilt_mode ^= knobButton.clicked();
     }
     else
     {
@@ -185,22 +204,15 @@ void loop()
     }
     display.refresh(pantilt_mode);
 
-#ifndef AxisZ
-
-    Axes axes = Joystick.returnValue() + Encoder.returnValue();
-    axes.z = axes.z * display.conf.Encoder;
-#else
-
-    Axes axes = Joystick.returnValue();
-#endif
+    // adjust sensitivity
     axes = axes << display.conf.sensitivity;
 
     // report HID state
-    XYZmouse().send_command(pantilt_mode ? 1 : 2, axes);
+    XYZmouse().send_command(pantilt_mode ? TRANS_ID : ROT_ID, axes);
     // send buttons state
     XYZmouse().send_buttons(b1.isPressed(), b2.isPressed());
   }
 
   // led / display / screensaver
-  screensaver();
+  screensaver(enc_dir);
 }

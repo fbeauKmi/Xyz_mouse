@@ -11,6 +11,11 @@
 #include "timer.h"
 
 #define ZERO_AXES {0, 0, 0}
+#define HID_REPORT_DELAY 8
+#define TRANS_ID 1
+#define ROT_ID 2
+#define KEY_ID 3
+#define MAX_ZERO_REPORT 4
 
 static const uint8_t _hidReportDescriptor[] PROGMEM = {
     0x05, 0x01,       //  Usage Page (Generic Desktop)

@@ -2,8 +2,6 @@
 //
 //
 
-#define HID_REPORT_DELAY 8
-
 #include "hid_descriptor.h"
 /// @brief
 /// @return
@@ -36,7 +34,7 @@ int mouseHID::begin(void)
 void mouseHID::send_command(uint8_t mode, Axes axes)
 {
 
-    if (mode == 1)
+    if (mode == TRANS_ID)
     {
         // Revert axes for translation
         trans.x = -axes.y;
@@ -66,11 +64,11 @@ void mouseHID::send_report()
 {
     static uint32_t _last_sent = 0;
 
-    static uint8_t report_id = 1;
+    static uint8_t report_id = TRANS_ID;
     static uint8_t last_button_state = 0;
     static uint8_t report_zero = 0;
 
-    Axes *target = (report_id == 1 ? &trans : &rot);
+    Axes *target = (report_id == TRANS_ID ? &trans : &rot);
     uint8_t val[6];
     splitvalues(val, *target);
 
@@ -78,7 +76,7 @@ void mouseHID::send_report()
     {
 
         // Skip report if zero values are reported more than 3 times
-        report_zero = (rot.x || rot.y || rot.z || trans.x || trans.y || trans.z) ? 0 : min(3, report_zero) + 1;
+        report_zero = (rot.x || rot.y || rot.z || trans.x || trans.y || trans.z) ? 0 : min(MAX_ZERO_REPORT, report_zero) + 1;
 
         switch (report_id)
         {
@@ -86,7 +84,7 @@ void mouseHID::send_report()
         case 1:
         // Rotation
         case 2:
-            if (report_zero < 4)
+            if (report_zero < MAX_ZERO_REPORT)
             {
                 HID().SendReport(report_id, &val, 6);
             }
@@ -100,7 +98,7 @@ void mouseHID::send_report()
                 last_button_state = button_state;
                 HID().SendReport(3, &button_state, 1);
             }
-            report_id = 1;
+            report_id = TRANS_ID;
             break;
         }
     }
@@ -112,7 +110,6 @@ void mouseHID::send_report()
 /// @return
 bool mouseHID::splitvalues(uint8_t *splitAxes, Axes axes)
 {
-
     splitAxes[0] = axes.x & 0xFF;
     splitAxes[1] = axes.x >> 8;
     splitAxes[2] = axes.y & 0xFF;
