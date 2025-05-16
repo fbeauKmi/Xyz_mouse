@@ -5,7 +5,6 @@
 // Use YourEnc.getDirection(); // possible values -1, 0, 1.
 
 #include "RotaryEncoder.h"
-#include "Arduino.h"
 
 // positions: [3] 1 [0] 2 [3] 1 [0] 2 [3]
 // [0] and [3] initialize signal trigger then 1 and 2 define direct
@@ -95,7 +94,7 @@ Axes RotaryEncoder::returnValue()
 
   if (getDirection())
   {
-    _increment = min(510, _increment + 32);
+    _increment = min(0xFFF, _increment + 0x1C);
     lastDirection = getDirection();
   }
   else
