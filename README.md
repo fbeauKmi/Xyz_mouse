@@ -17,8 +17,7 @@ Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
 
 ## Todo/improve
 
-- Orbion_settings : a mixed library wich managed display and settings
-- Strings management to improve
+- HID feedback
 
 ## Installation :
 
@@ -65,25 +64,25 @@ Use encoder to navigate, Knob button to enter item or validate, B3 button to can
 
 ### Settings
 
-  - **Knob Dir**: _[Left hand, Right hand]_ (default: Left Hand)  
+  - **Knob dir.**: _[Left hand, Right hand]_ (default: Left Hand)  
     Change the direction of the encoder.
-  - **Pan / Rot**: _[Hold to Pan, Hold to Rot, Click to invert]_ (default: Click to invert)  
+  - **Rot / Pan**: _[Hold to Pan, Hold to Rot, Click to invert]_ (default: Click to invert)  
     Three modes: `Hold to Pan` (hold knob button to pan), `Hold to Rot` (hold knob button to rotate), `Click to invert` (press knob button to switch between pan and rotate).
-  - **DZ Width**: _[1 - 20]_ (default: 5). \
+  - **DZ Width**: _[3 - 20]_ (default: 5). \
     Joystick deadzone setting
   - **Sensitivity**: _[1 - 5]_ (default: 5).\
     Joystick sensitivity
-  - **Color 1**: _For LED effects_ (default: HSV(46,127,127)).
-  - **Color 2**: _Secondary color for LED effects_ (default: HSV(127,127,127)).
+  - **1st Color**: _For LED effects_ (default: HSV(46,127,127)).
+  - **2nd Color**: _Secondary color for LED effects_ (default: HSV(127,127,127)).
   - **Led Motion**: _[Running, Chase, Fixed]_ (default: Chase).
 
-  - **Led Colors**: _[Color 1, Mixed, Rainbow]_ (default: Mixed)  
+  - **Color Mode**: _[Off, 1st Color, Mixed, Rainbow]_ (default: Mixed)  
     Mixed creates a gradient between Color 1 and Color 2.
   - **OLED Contrast**: _[1 - 5]_ (default: 1). \
-    Screen contrast setting
-  - **Timeout (sec)**: _[1 - 61]_ (default: 30s). \
+    Screen contrast setting _(only for SH110x display, it does nothing on SSD1306)_
+  - **Timeout (sec)**: _[3 - 60]_ (default: 30s). \
     Time before screensaver activates
-  - **Reset Config**: Reset all settings to default.
+  - **Restore def.**: Reset all settings to default.
 
 
 All other settings (by app, buttons functions )can be done in 3DxWare on your computer.
