@@ -177,10 +177,7 @@ void loop()
     // get pan/tilt mode against config and knob button
     if (display.conf.Mode == 2)
     {
-      if (knobButton.clicked())
-      {
-        pantilt_mode ^= true;
-      }
+        pantilt_mode ^= knobButton.clicked();
     }
     else
     {
