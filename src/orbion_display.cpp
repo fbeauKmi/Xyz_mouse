@@ -307,7 +307,7 @@ void Orbion_display::enter()
         itemtype = items_type[current_item];
         actionvalue = inRange(min_vals[itemtype], max_vals[itemtype], EE_read(id));
         actionvalue = (itemtype == RESET_AM ? 0 : actionvalue);
-        str_pos = itemPos[itemtype] - 1;
+        str_pos = itemPos[itemtype];
 
         if (itemtype == COLOR_AM)
         {
