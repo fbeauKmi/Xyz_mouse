@@ -18,7 +18,7 @@ Orbion_display::Orbion_display() : Adafruit_SH1106G(128, 64, &Wire, 4)
     actions_startpos = list[0] + (list[1] & 0x0F) + (list[2] & 0x0F);
 };
 
-void Orbion_display::init()
+void Orbion_display::init(Orbion_Neopixel *leds)
 {
 #ifdef SSD1306
     begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -27,6 +27,9 @@ void Orbion_display::init()
 #endif
     setRotation(2); // define screen orientation
     clear();        // Clear screen at startup
+
+    _leds = leds;
+    loadConfig();
 };
 
 #ifdef SSD1306
@@ -198,7 +201,7 @@ void Orbion_display::action()
             print(jogyvalue);
             setCursor(20, 47);
             print("RGB #");
-            print(_leds->getColor(), HEX);
+            printRGB(_leds->getColor());
 
             _leds->display(0, 1, c, 0);
         }
@@ -222,14 +225,12 @@ void Orbion_display::back()
 {
     toupdate = true;
 
-    if (actionmode)
-    {
-        actionmode = false;
-    }
-    else
+    if (!actionmode)
     {
         exitSettings();
+        return;
     }
+    actionmode = false;
 }
 
 void Orbion_display::scroll(int8_t inc)
@@ -241,29 +242,24 @@ void Orbion_display::scroll(int8_t inc)
     if (!actionmode)
     {
         current_item = inRange(0, nbitem, current_item - inc);
+        return;
     }
-    else
+
+    if (isTimeout(&timer, 75))
     {
-
-        if (isTimeout(&timer, 100))
-        {
-            multiplier = 1;
-        }
-        inc *= multiplier;
-        inc += actionvalue;
-        actionvalue = inRange(min_vals[itemtype], max_vals[itemtype], inc);
+        multiplier = 1;
     }
+    inc *= multiplier;
+    actionvalue = inRange(min_vals[itemtype], max_vals[itemtype], (int16_t)actionvalue + inc);
 }
 
-void Orbion_display::jogx(int8_t inc)
+void Orbion_display::jog(Axes axes)
 {
-    static uint32_t timer = 0;
-    _jog(inc, &jogxvalue, &timer);
-}
-void Orbion_display::jogy(int8_t inc)
-{
-    static uint32_t timer = 0;
-    _jog(inc, &jogyvalue, &timer);
+    static uint32_t timerx = 0;
+    static uint32_t timery = 0;
+
+    _jog(axes.x, &jogxvalue, &timerx);
+    _jog(axes.y, &jogyvalue, &timery);
 }
 
 void Orbion_display::_jog(int8_t inc, uint8_t *axevalue, uint32_t *timer)
@@ -369,6 +365,26 @@ void Orbion_display::drawIcon(uint8_t x, uint8_t y, byte id)
 {
     const uint8_t *icon_bitmap = (const uint8_t *)pgm_read_word(&icons[id]);
     drawBitmap(x, y, icon_bitmap, icon_SIZE, icon_SIZE, SH110X_WHITE);
+}
+
+/// @brief printRGB HEX value
+/// @param color
+/// @return
+size_t Orbion_display::printRGB(uint32_t color)
+{
+    int digit = 6;
+    char *str = &buf[digit];
+    *str = '\0';
+
+    do
+    {
+        char c = color % HEX;
+        color /= HEX;
+        digit--;
+
+        *--str = c < 10 ? c + '0' : c + 'A' - 10;
+    } while (digit);
+    return write(str);
 }
 
 /// @brief  draw a scroll bar on the display

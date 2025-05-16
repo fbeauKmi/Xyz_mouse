@@ -58,12 +58,7 @@ protected:
 
 public:
     Orbion_display();
-    void setleds(Orbion_Neopixel *leds)
-    {
-        _leds = leds;
-        loadConfig();
-    };
-    void init();
+    void init(Orbion_Neopixel *leds);
     void update();
     void refresh();
     void refresh(bool mode);
@@ -74,8 +69,7 @@ public:
     void startSettings();
 
     void scroll(int8_t inc);
-    void jogx(int8_t inc);
-    void jogy(int8_t inc);
+    void jog(Axes axes);
     void enter();
     void select();
 
@@ -85,6 +79,8 @@ public:
     void loadConfig();
 
     void pgmString(uint8_t id);
+    size_t printRGB(uint32_t color);
+
     void drawIcon(uint8_t x, uint8_t y, uint8_t id);
 
     uint8_t EE_addr(uint8_t id);
