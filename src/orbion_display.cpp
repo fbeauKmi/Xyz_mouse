@@ -360,7 +360,10 @@ void Orbion_display::pgmString(uint8_t id)
     strcpy_P(buf, (char *)pgm_read_word(&datas[id]));
 }
 
-///
+/// @brief Draw 13x13 icon from id (see bitmaps.h)
+/// @param x 
+/// @param y 
+/// @param id 
 void Orbion_display::drawIcon(uint8_t x, uint8_t y, byte id)
 {
     const uint8_t *icon_bitmap = (const uint8_t *)pgm_read_word(&icons[id]);
@@ -387,13 +390,14 @@ size_t Orbion_display::printRGB(uint32_t color)
     return write(str);
 }
 
-/// @brief  draw a scroll bar on the display
-/// @param x
-/// @param y
-/// @param l  scroll bar length in pixels
-/// @param h  horizontal or vertical
-/// @param nb_items  number of items on the scroll bar
-/// @param current_item  current item on the scroll bar
+/// @brief draw a scroll bar on the display
+/// @param x  position
+/// @param y  position
+/// @param l  length of the scrollbar
+/// @param horizontal true if horizontal ltr, false if vertical ttb
+/// @param min_val  start value
+/// @param max_val  end value
+/// @param val      current value on scrollbar
 void Orbion_display::scrollBar(uint8_t x, uint8_t y, uint8_t l, boolean horizontal, uint8_t min_val, uint8_t max_val, uint8_t val)
 {
     uint8_t w;
@@ -423,7 +427,7 @@ void Orbion_display::scrollBar(uint8_t x, uint8_t y, uint8_t l, boolean horizont
     fillRect(x3, y3, 3, 3, SH110X_WHITE);
 }
 
-/// @brief
+/// @brief return a val between minval and maxval
 /// @param minval
 /// @param maxval
 /// @param val
