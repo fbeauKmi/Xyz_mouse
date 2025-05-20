@@ -6,12 +6,12 @@ An alternate firmware for [Orbion spacemouse](https://github.com/FaqT0tum/Orbion
 
 The firmware is licensed under GPL 3.0 . 
 
-It gives to your Orbion 6Dof (see usage). The current firmware is designed for
+It provides 6 degrees of freedom (6DoF: 3DoF*2 ;-) ) functionality to your Orbion (see usage). The current firmware is designed for
 Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
 
 ## Compatibility :
 
-### Hardeware :
+### Hardware :
 
   Xyz Mouse firmware shares the material support of Orbion 3D mouse.
   - Arduino micro ATmega32U4,
@@ -21,7 +21,7 @@ Arduino Leonardo. Ports for more modern mcus and different sensors is planned.
   - 3 buttons + knob button,
   - Neopixel led strip.
 
-### firmware :
+### Firmware :
 
   The firmware has been reported to work on latest Windows and macOS with
   3dxware drivers. For Linux systems, SpaceNav project is required.
@@ -148,7 +148,7 @@ _**I'm unable to change axis on my software but some other softwares work.**_
   to access to the settings tab for 3D mouse in Superslicer.
   - Alternativly, refer to the software editor to ask for Spacemouse compact support. 
 
-## Any questions
+## Questions ?
 
 @fboc on Discord
 
