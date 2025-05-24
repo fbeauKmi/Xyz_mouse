@@ -82,7 +82,7 @@ const byte EE_address[] PROGMEM = {1,10,38,5,7,45,40,53,56,12,3};
 // - knobdir: 0x0 = Left Hand , 0x1 = Right Hand ,
 // - Pan/Rot: 0x1 = Hold to Pan , 0x2 = Hold to Rot , 0x2 = Click to invert ,
 // - DZ width: 0x4 ,
-// - Sensitivity: 0x13,
+// - Sensitivity: 0x4,
 // - Color 1: 0x2D ,
 // - Color 2: 0x7E ,
 // - Led Motion: 0x0 = Fixed , 0x1 = Running , 0x2 = Chase ,
@@ -90,7 +90,7 @@ const byte EE_address[] PROGMEM = {1,10,38,5,7,45,40,53,56,12,3};
 // - OLED Contrast: 0x0 ,
 // - Timeout: 0x1D = 30s.
 
-const byte defaultVal[] PROGMEM = { 0x01, 0x00, 0x02, 0x04, 0x13, 0x2D, 0x7E, 0x02, 0x02, 0x00, 0x1D};
+const byte defaultVal[] PROGMEM = { 0x01, 0x00, 0x02, 0x04, 0x04, 0x2D, 0x7E, 0x02, 0x02, 0x00, 0x1D};
 
 
 const char *const datas[] PROGMEM = {(const char *) arMenu,
