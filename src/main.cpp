@@ -155,7 +155,6 @@ void loop()
 #ifndef AxisZ
 
   Axes axes = Joystick.returnValue() + Encoder.returnValue();
-  axes.z = axes.z * display.conf.Encoder;
 
   int8_t enc_dir = Encoder.getDirectionHalf();
 #else

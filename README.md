@@ -39,7 +39,11 @@ It can be tricky to get the firmware to be recognized by the system. Follow this
 - Install the [3DConnexion drivers](https://3dconnexion.com/us/drivers/) (Windows, macOS) or  [spacenav](https://spacenav.sourceforge.net/) (Linux)
 - Restart your computer.
 
+
+> [!NOTE]
 > The default display build is configured for sh110x, if you want to use ssd1306 open `platformio.ini` and change ``default_envs`` value to  ``ssd1306``
+> 
+> To fix reversed encoder behavior in the Settings menu, interchange the `CLK` and `DT` pins in [`src/settings.h`](./src/settings.h). 
 
 ![Main display](./images/p1.png)
 
@@ -102,51 +106,53 @@ All other settings (by app, buttons functions )can be done in 3DxWare on your co
 ## Troubleshooting
 _**I'm not able to upload firmware on Arduino micro.**_
   
-  - Press reset button twice quickly before upload.
-  - See [Orbion How to flash firmware](https://github.com/FaqT0tum/Orbion_3D_Space_Mouse/blob/main/HowToFlashing.pdf) 
+  - Press reset button twice quickly before uploading.
+  - See [Orbion How to flash firmware](https://github.com/FaqT0tum/Orbion_3D_Space_Mouse/blob/main/HowToFlashing.pdf) for details. 
 
 _**I cannot access the Settings menu pressing B3.**_
 
   - Check the wiring.
-  - Check if settings.h follows your pinout.
+  - Ensure `settings.h` matches your pinout configuration.
 
-_**Mouse is always/frequently disconnecting/ressetting / Neopixel blinks when I move axes.**_
+_**The mouse keeps disconnecting/resetting, or the Neopixel blinks when I move the axes.**_
   
-  - Check your work, i2c / neopixel require good quality wiring.
+  - Double-check your wiring — **I2C and Neopixel require high-quality, stable connections.**
 
 _**Black screen at startup**_
 
-  - Check your wiring.
-  - Check if settings.h follows your pinout. 
-  - Wrong display type, check if your hardware is ssd1306 or sh110x and 
-  adjust `platformio.ini`
+  - Verify all wiring connections.
+  - Confirm that `settings.h` matches your hardware's pinout.
+  - Ensure the correct display type is set (`ssd1306` or `sh110x`) in `platformio.ini`.
 
-_**Mouse is not recognize as SpaceMouse.**_
+_**Mouse is not recognize as a SpaceMouse.**_
 
-  - Manually set driver to 3Dconnexion Spacemouse compact in Hardware manager
-  - or Uninstall/reinstall 3Dconnexion drivers. Restart you computer.
-  - or flash the firmware again.
+  - Manually set driver to 3Dconnexion Spacemouse compact in device manager
+  - Alternatively, uninstall and reinstall the 3Dconnexion drivers, then restart your computer.
+  - Reflash the firmware if necessary.
 
 _**Display only shows half of the content**_
 
 ![half display](./images/half_display.png)
 
-  - You probably have a 128x32 display. Xyz Mouse is **only** compatible 
-  with 128x64 OLED display
+  - This likely indicates a **128x32 OLED display**. Xyz Mouse is **only** compatible 
+  with **128x64 OLED displays**
 
-_**Mouse doesn't act on my software.**_
+_**The Mouse doesn't respond on my software.**_
 
-  - See [software support](https://3dconnexion.com/us/software/) on 3Dconnexion
-   website.
+  - Refer to [3Dconnexion Software Support page](https://3dconnexion.com/us/software/).
 
-_**I'm unable to change axis on my software but some other softwares work.**_
+_**Encoder behaves in reverse**_
 
-  - See [software support](https://3dconnexion.com/us/software/) on 3Dconnexion
-   website
-  - for [Superslicer](https://github.com/supermerill/SuperSlicer) , Activate _"Enable
-  support for legacy 3Dconnexion devices"_ in _"Preferences/Camera"_ . Use `Crtl+M`
-  to access to the settings tab for 3D mouse in Superslicer.
-  - Alternativly, refer to the software editor to ask for Spacemouse compact support. 
+  - In the Settings Menu: Swap the CLK and DT pins in `settings.h`
+  - In software applications: Adjust axis direction in the 3Dconnexion settings.
+
+_**I can't change axes on my software, but it works in others.**_
+
+  - Refer to [3Dconnexion Software Support page](https://3dconnexion.com/us/software/).
+  - for [Superslicer](https://github.com/supermerill/SuperSlicer) ,
+    - Enable _"Support for legacy 3Dconnexion devices"_ in **Preferences > Camera**.
+    - Use `Ctrl+M` to open the 3D mouse settings tab in SuperSlicer.
+  - Otherwise, contact the software developer for SpaceMouse Compact support.
 
 ## Questions ?
 

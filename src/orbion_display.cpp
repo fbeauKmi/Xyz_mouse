@@ -162,7 +162,7 @@ void Orbion_display::select()
         setTextColor(_textcolor);
         print_center(buf);
     }
-    scrollBar(width() - _LETTER_SIZE, 23, 31, false, 0, nbitem, current_item);
+    scrollBar(conf.Encoder == 1 ? width() - _LETTER_SIZE : _LETTER_SIZE - 3, 23, 31, false, 0, nbitem, current_item);
 }
 
 void Orbion_display::action()
@@ -249,7 +249,7 @@ void Orbion_display::scroll(int8_t inc)
     {
         multiplier = 1;
     }
-    inc *= multiplier;
+    inc *= multiplier * conf.Encoder;
     actionvalue = inRange(min_vals[itemtype], max_vals[itemtype], (int16_t)actionvalue + inc);
 }
 
@@ -361,9 +361,9 @@ void Orbion_display::pgmString(uint8_t id)
 }
 
 /// @brief Draw 13x13 icon from id (see bitmaps.h)
-/// @param x 
-/// @param y 
-/// @param id 
+/// @param x
+/// @param y
+/// @param id
 void Orbion_display::drawIcon(uint8_t x, uint8_t y, byte id)
 {
     const uint8_t *icon_bitmap = (const uint8_t *)pgm_read_word(&icons[id]);
