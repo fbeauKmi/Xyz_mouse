@@ -21,6 +21,8 @@
 #define RotaryEncoder_h
 
 #include "Arduino.h"
+#include "struct.h" // project structs
+#include "timer.h"
 
 class RotaryEncoder
 {
@@ -35,16 +37,14 @@ public:
 
   // call this function every some milliseconds or by using an interrupt for handling state changes of the rotary encoder.
   void update(void);
-  void action(bool buttonPressed, int8_t dir, void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t));
-
+  Axes returnValue(); // Return value for HID
 
 private:
   int _pin1, _pin2; // Arduino pins used for the encoder.
 
-  int8_t _direction;  // direction of the knob catch by [0] and [3]
-  int8_t _direction_half;  // direction of the knob catch by [3]
-  int16_t _increment;
-  uint32_t _currentMillis;
+  int8_t _direction;      // direction of the knob catch by [0] and [3]
+  int8_t _direction_half; // direction of the knob catch by [3]
+  int16_t _increment;     // increment value
 };
 
 #endif

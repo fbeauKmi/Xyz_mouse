@@ -27,25 +27,28 @@
 #define ORBIONJOYSTICK_H
 
 #include "Arduino.h"
+#include "struct.h"
 #include <stdint.h>
-
 
 class Orbion_joystick {
    public:
+#ifndef AxisZ
     Orbion_joystick(uint8_t pin_x, uint8_t pin_y);
+#else
     Orbion_joystick(uint8_t pin_x, uint8_t pin_y, uint8_t pin_z);
+    int8_t getDirection();
+    int8_t getDirectionHalf();
+#endif
     ~Orbion_joystick();
     void Init();
     void Update();
     void CalibrateZero();
     void SetDeadzone(int16_t deadzone);
     int16_t GetDeadzone();
-    void SetSensitivity(int16_t sensivity);
-    int16_t GetSensitivity();
     
     bool isTriggered();
-    void action(bool buttonPressed,  void (*send_cmd)(int16_t, int16_t, int16_t, int16_t, int16_t, int16_t));
-    
+    Axes returnValue();
+
     int16_t x();
     int16_t y();
     int16_t z();
@@ -57,11 +60,15 @@ class Orbion_joystick {
     uint8_t gpio_pin_z;
     int16_t zero_x;
     int16_t zero_y;
-    int16_t zero_z;
+    
     int16_t value_int_x;
     int16_t value_int_y;
+
+#ifdef AxisZ
+
+    int16_t zero_z;
     int16_t value_int_z;
-    
+#endif
     int8_t deadzone;
     int8_t sensitivity;
     int16_t axev(int16_t  value);
