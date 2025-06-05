@@ -249,7 +249,7 @@ void Orbion_display::scroll(int8_t inc)
     {
         multiplier = 1;
     }
-    inc *= multiplier * conf.Encoder;
+    inc *= multiplier * conf.Encoder; //apply encoder direction
     actionvalue = inRange(min_vals[itemtype], max_vals[itemtype], (int16_t)actionvalue + inc);
 }
 
@@ -270,7 +270,7 @@ void Orbion_display::_jog(int8_t inc, uint8_t *axevalue, uint32_t *timer)
         {
             inc = (inc + 1) >> 2;
 
-            *axevalue = inRange(0, 0xFF, *axevalue - inc); // = max(16,min(0,jogyvalue+inc));
+            *axevalue = inRange(0, 0xFF, *axevalue - inc);
             toupdate = true;
         }
     }

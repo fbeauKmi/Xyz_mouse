@@ -31,23 +31,18 @@ int mouseHID::begin(void)
 /// @param x
 /// @param y
 /// @param z
-void mouseHID::send_command(uint8_t mode, Axes axes)
+void mouseHID::send_command(Axes span, Axes srot)
 {
 
-    if (mode == TRANS_ID)
-    {
-        // Revert axes for translation
-        trans.x = -axes.y;
-        trans.y = axes.x;
-        trans.z = axes.z;
-
-        rot = ZERO_AXES;
-    }
-    else
-    {
-        trans = ZERO_AXES;
-        rot = axes;
-    }
+    trans.x = -span.y;
+#ifdef ZOOM_ON_ENCODER
+    trans.y = span.z;
+    trans.z = span.x;
+#else
+    trans.y = span.x;
+    trans.z = span.z;
+#endif
+    rot = srot;
     send_report();
 }
 

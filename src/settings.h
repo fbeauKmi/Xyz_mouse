@@ -2,6 +2,10 @@
 //         Pin Defines  &  Other settings           */
 //***************************************************/
 
+#ifndef SETTINGS_H
+#define SETTINGS_H
+
+
 #define LED 15      // Neopixel pin
 #define NUMPIXELS 7 // Number of led on the strip (default 7)
 #define LED_DIR -1  // 1 or -1 depends the way your Leds "rotate"
@@ -14,10 +18,9 @@
 #define button2 8   // Rear Button
 #define button3 9   // Rear Button
 
-// Experimental : to use with AFUdirk Knob
-// Uncomment the lines below to use the knob instead of Encoder
-// #define AxisZ           A6
-// #define RotateKnob      A7
+// Experimental :
 
-// Uncomment if you don't use display, B3 will be disabled
-// #define NO_DISPLAY
+// Leave uncomment if you want to use encoder as Zoom in PAN mode instead of Y joystick
+#define ZOOM_ON_ENCODER
+
+#endif

@@ -8,7 +8,7 @@
 #include <avr/pgmspace.h>
 
 // Define constants
-#define FIRMWARE_NAME "Xyz Mouse v4.0"
+#define FIRMWARE_NAME "Xyz Mouse v4.1"
 
 #define PANTILT_AM    0
 #define DZ_WIDTH_AM   1

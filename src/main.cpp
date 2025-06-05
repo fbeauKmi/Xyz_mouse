@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////
-//////////  M-Xyz  V4.0  ////////////////////////////
+//////////  M-Xyz  V4.1  ////////////////////////////
 //////////  an Alternate firmware for Orbion //////////
 //////////  by @fboc#1751 /////////////////////////////
 //////////  Licence GNU GPL V3.0  /////////////////////
@@ -207,7 +207,7 @@ void loop()
     axes = axes << display.conf.sensitivity;
 
     // report HID state
-    XYZmouse().send_command(pantilt_mode ? TRANS_ID : ROT_ID, axes);
+    XYZmouse().send_command(pantilt_mode ? axes : Axes ZERO_AXES, pantilt_mode ? Axes ZERO_AXES: axes );
     // send buttons state
     XYZmouse().send_buttons(b1.isPressed(), b2.isPressed());
   }

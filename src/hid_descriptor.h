@@ -9,6 +9,7 @@
 #include "HID.h"
 #include "struct.h"
 #include "timer.h"
+#include "settings.h"
 
 #define ZERO_AXES {0, 0, 0}
 #define HID_REPORT_DELAY 8
@@ -68,7 +69,7 @@ public:
   ~mouseHID() {};
   mouseHID();
   int begin(void);
-  void send_command(uint8_t mode, Axes axes);
+  void send_command(Axes span, Axes srot);
   void send_buttons(uint8_t L_state, uint8_t R_state);
 
 private:

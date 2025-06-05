@@ -154,6 +154,11 @@ _**I can't change axes on my software, but it works in others.**_
     - Use `Ctrl+M` to open the 3D mouse settings tab in SuperSlicer.
   - Otherwise, contact the software developer for SpaceMouse Compact support.
 
+_**How do Zoom with encoder instead of joystick ?**_
+
+  - Change Zoom direction in 3Dxware settings
+  - or uncomment ``#define ZOOM_ON_ENCODER`` in `src\settings.h`
+
 ## Questions ?
 
 @fboc on Discord
