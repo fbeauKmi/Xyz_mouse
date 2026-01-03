@@ -13,6 +13,7 @@
 #define CLK 5       // CLK Encoder
 #define AxisY A2    // VRY Joystick
 #define AxisX A3    // VRX Joystick
+#define AxisZ A0    // VRZ Joystick, if define DT and CLK are not used
 #define joyButt A1  // SW Joystick
 #define button1 7   // Rear Button
 #define button2 8   // Rear Button
@@ -21,6 +22,10 @@
 // Experimental :
 
 // Leave uncomment if you want to use encoder as Zoom in PAN mode instead of Y joystick
-#define ZOOM_ON_ENCODER
+//#define ZOOM_ON_ENCODER
+//#define NO_DISPLAY                 // Uncomment if no display used (downside unable to config the XYZmouse)
+#define BUTTONS_DEBOUNCE_DELAY      10 // Default 15, working values [5, 30]
+#define BUTTONS_CLICK_DELAY         60 // 
+#define ROTARYENCODER_DEBOUNCE_DELAY 2 // Default 2, working values [1, 10]
 
 #endif

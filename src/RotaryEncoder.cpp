@@ -14,9 +14,9 @@
 
 // ----- Initialization and Default Values -----
 
-/// @brief 
-/// @param pin1 
-/// @param pin2 
+/// @brief
+/// @param pin1
+/// @param pin2
 RotaryEncoder::RotaryEncoder(int pin1, int pin2)
 {
   // Remember Hardware Setup
@@ -32,40 +32,40 @@ RotaryEncoder::RotaryEncoder(int pin1, int pin2)
   _direction_half = 0; // [3]
 } // RotaryEncoder()
 
-/// @brief 
+/// @brief
 RotaryEncoder::~RotaryEncoder()
 {
 }
 
 /// @brief [0] and [3] return 1 if clockwise -1 if counterclockwire, 0 if no changes
-/// @return 
+/// @return
 int8_t RotaryEncoder::getDirection()
 {
   return _direction;
 }
 
 /// @brief [3] return 1 if clockwise -1 if counterclockwire, 0 if no changes
-/// @return 
+/// @return
 int8_t RotaryEncoder::getDirectionHalf()
 {
   return _direction_half;
 }
 
 /// @brief update direction variables
-/// @param  
+/// @param
 void RotaryEncoder::update(void)
 {
   bool sig1 = digitalRead(_pin1);
   bool sig2 = digitalRead(_pin2);
+  static uint32_t lastDebounceTime;
   uint8_t thisState = sig1 | (sig2 << 1);
   static uint8_t _oldState = thisState;
 
   _direction = 0;
   _direction_half = 0;
   // Check if the state has changed
-  if (_oldState != thisState)
+  if (isTimeout(&lastDebounceTime, ROTARYENCODER_DEBOUNCE_DELAY) && _oldState != thisState)
   {
-
     if (_oldState == 3)
     {
       _direction = (sig1 ? 1 : -1);
@@ -82,7 +82,7 @@ void RotaryEncoder::update(void)
 } // update()
 
 /// @brief Return values for HID,emulate jogZ;
-/// @return 
+/// @return
 Axes RotaryEncoder::returnValue()
 {
   static int8_t lastDirection;

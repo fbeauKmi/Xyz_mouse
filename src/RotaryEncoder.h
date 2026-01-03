@@ -22,6 +22,7 @@
 
 #include "Arduino.h"
 #include "struct.h" // project structs
+#include "settings.h"
 #include "timer.h"
 
 class RotaryEncoder
